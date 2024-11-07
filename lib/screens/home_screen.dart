@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -49,18 +50,21 @@ class UnitCard extends StatelessWidget {
       height: 76, // Altura fixa dos botões
       decoration: BoxDecoration(
         color: const Color(0xFF2188FF), // Cor de fundo do botão
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(5), // Borda superior esquerda arredondada
-        ),
+        borderRadius: BorderRadius.circular(5), // Borda arredondada de 5px
       ),
-      padding: const EdgeInsets.fromLTRB(32, 24, 32, 24), // Padding interno
+      padding: const EdgeInsets.fromLTRB(33, 24, 32, 24), // Padding interno
       child: Row(
         children: [
-          const Icon(
-            Icons.account_tree,
-            color: Colors.white,
+          SvgPicture.asset(
+            'assets/icons/vector.svg',
+            width: 21.11,
+            height: 16.29,
+            colorFilter: const ColorFilter.mode(
+              Colors.white,
+              BlendMode.srcIn,
+            ),
           ),
-          const SizedBox(width: 16), // Espaçamento entre o ícone e o texto
+          const SizedBox(width:17.45), // Espaçamento entre o ícone e o texto
           Text(
             unitName,
             style: const TextStyle(
@@ -78,3 +82,4 @@ class UnitCard extends StatelessWidget {
     );
   }
 }
+
