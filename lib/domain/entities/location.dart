@@ -3,5 +3,6 @@ class Location {
   final String name;
   final String companyId;
 
-  Location({required this.id, required this.name, required this.companyId});
+  const Location(
+      {required this.id, required this.name, required this.companyId});
 }

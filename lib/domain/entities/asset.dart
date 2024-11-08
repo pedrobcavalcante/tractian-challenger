@@ -3,5 +3,5 @@ class Asset {
   final String name;
   final String companyId;
 
-  Asset({required this.id, required this.name, required this.companyId});
+  const Asset({required this.id, required this.name, required this.companyId});
 }

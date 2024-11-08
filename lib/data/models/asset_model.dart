@@ -1,7 +1,7 @@
 import '../../domain/entities/asset.dart';
 
 class AssetModel extends Asset {
-  AssetModel(
+  const AssetModel(
       {required super.id, required super.name, required super.companyId});
 
   factory AssetModel.fromJson(Map<String, dynamic> json) {
