@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import '../widgets/primary_app_bar.dart';
+import '../widgets/unit_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -7,18 +8,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF17192D),
-        centerTitle: true,
-        title: const Text(
-          'TRACTIAN',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        toolbarHeight: 48,
-      ),
+      appBar: const PrimaryAppBar(),
       body: Align(
         alignment: Alignment.topCenter,
         child: SingleChildScrollView(
@@ -37,49 +27,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-class UnitCard extends StatelessWidget {
-  final String unitName;
-
-  const UnitCard({super.key, required this.unitName});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 317, // Largura fixa dos botões
-      height: 76, // Altura fixa dos botões
-      decoration: BoxDecoration(
-        color: const Color(0xFF2188FF), // Cor de fundo do botão
-        borderRadius: BorderRadius.circular(5), // Borda arredondada de 5px
-      ),
-      padding: const EdgeInsets.fromLTRB(33, 24, 32, 24), // Padding interno
-      child: Row(
-        children: [
-          SvgPicture.asset(
-            'assets/icons/vector.svg',
-            width: 21.11,
-            height: 16.29,
-            colorFilter: const ColorFilter.mode(
-              Colors.white,
-              BlendMode.srcIn,
-            ),
-          ),
-          const SizedBox(width:17.45), // Espaçamento entre o ícone e o texto
-          Text(
-            unitName,
-            style: const TextStyle(
-              fontFamily: 'Roboto',
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-              color: Colors.white,
-              height: 28 /
-                  18, // line-height em Flutter é ajustado pela altura da fonte
-            ),
-            textAlign: TextAlign.left,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
