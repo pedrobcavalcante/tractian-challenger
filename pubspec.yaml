@@ -64,6 +64,7 @@ flutter:
 
   assets:
     - assets/images/tractian_logo.png
+    - assets/images/tractian.png
     - assets/icons/
 flutter_native_splash:
   color: "#ffffff" # Cor de fundo da splash screen (aqui, branco)

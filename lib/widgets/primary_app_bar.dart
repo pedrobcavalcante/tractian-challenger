@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:tractian/widgets/app_bar.dart';
 
 class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   const PrimaryAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      backgroundColor: const Color(0xFF17192D),
-      centerTitle: true,
-      title: const Text(
-        'TRACTIAN',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
+    return TractianAppBar(
+      titleImage: Image.asset(
+        'assets/images/tractian.png',
+        height: 24,
       ),
-      toolbarHeight: 48,
     );
   }
 
