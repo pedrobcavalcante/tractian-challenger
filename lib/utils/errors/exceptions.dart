@@ -3,17 +3,20 @@ class ServerException implements Exception {
   ServerException([this.message = 'Erro no servidor']);
 }
 
-class NetworkException implements Exception {
+class NetworkException implements ServerException {
+  @override
   final String message;
   NetworkException([this.message = 'Falha na conexão de rede']);
 }
 
-class UnauthorizedException implements Exception {
+class UnauthorizedException implements ServerException {
+  @override
   final String message;
   UnauthorizedException([this.message = 'Usuário não autorizado']);
 }
 
-class NotFoundException implements Exception {
+class NotFoundException implements ServerException {
+  @override
   final String message;
   NotFoundException([this.message = 'Recurso não encontrado']);
 }

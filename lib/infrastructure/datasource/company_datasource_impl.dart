@@ -2,6 +2,7 @@ import 'dart:io';
 
 import '../../data/datasource/company_datasource.dart';
 import '../../utils/errors/exceptions.dart';
+import '../../utils/errors/network_utils.dart';
 import '../network/api_client.dart';
 
 class CompanyDataSourceImpl implements CompanyDataSource {
@@ -27,29 +28,23 @@ class CompanyDataSourceImpl implements CompanyDataSource {
   }
 
   Future<List<Map<String, dynamic>>> _getRequest(String endpoint) async {
+    late final int statusCode;
     try {
       final response = await apiClient.get(endpoint);
-
-      if (response.statusCode == 200) {
+      statusCode = response.statusCode;
+      if (statusCode == 200) {
         return List<Map<String, dynamic>>.from(response.data);
       }
-      switch (response.statusCode) {
-        case 401:
-          throw UnauthorizedException('Usuário não autorizado');
-        case 404:
-          throw NotFoundException('Recurso não encontrado');
-        case 500:
-          throw ServerException('Erro interno do servidor');
-        default:
-          throw ServerException(
-              'Erro desconhecido com status ${response.statusCode}');
-      }
+      NetworkUtils.handleHttpError(statusCode);
     } on SocketException {
       throw NetworkException('Não foi possível conectar-se à rede.');
     } on FormatException {
       throw ServerException('Formato de resposta inválido do servidor.');
+    } on ServerException {
+      rethrow;
     } catch (e) {
       throw ServerException('Erro desconhecido: $e');
     }
+    throw ServerException('Erro desconhecido.');
   }
 }
