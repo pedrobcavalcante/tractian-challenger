@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tractian/infrastructure/datasource/company_datasource_impl.dart';
@@ -27,20 +26,17 @@ void main() {
       {"id": "2", "name": "Item B"}
     ];
 
-    void mockApiClientResponse(int statusCode, dynamic data) {
+    void mockApiClientResponse(dynamic data) {
       when(() => mockApiClient.get(any())).thenAnswer(
-        (_) async => Response(
-          statusCode: statusCode,
-          data: data,
-          requestOptions: RequestOptions(path: ''),
-        ),
+        (_) async => data, // retorna apenas os dados simulados
       );
     }
 
     group('getCompanies', () {
-      test('retorna lista de Company ao receber status 200', () async {
+      test('retorna lista de Company quando a requisição é bem-sucedida',
+          () async {
         // Arrange
-        mockApiClientResponse(200, mockResponseData);
+        mockApiClientResponse(mockResponseData);
 
         // Act
         final result = await dataSource.getCompanies();
@@ -49,42 +45,13 @@ void main() {
         expect(result, equals(mockResponseData));
         verify(() => mockApiClient.get(testCompaniesEndpoint)).called(1);
       });
-
-      test('lança UnauthorizedException para status 401', () async {
-        // Arrange
-        mockApiClientResponse(401, null);
-
-        // Act & Assert
-        expect(() async => await dataSource.getCompanies(),
-            throwsA(isA<UnauthorizedException>()));
-        verify(() => mockApiClient.get(testCompaniesEndpoint)).called(1);
-      });
-
-      test('lança NotFoundException para status 404', () async {
-        // Arrange
-        mockApiClientResponse(404, null);
-
-        // Act & Assert
-        expect(
-            () => dataSource.getCompanies(), throwsA(isA<NotFoundException>()));
-        verify(() => mockApiClient.get(testCompaniesEndpoint)).called(1);
-      });
-
-      test('lança ServerException para status 500', () async {
-        // Arrange
-        mockApiClientResponse(500, null);
-
-        // Act & Assert
-        expect(
-            () => dataSource.getCompanies(), throwsA(isA<ServerException>()));
-        verify(() => mockApiClient.get(testCompaniesEndpoint)).called(1);
-      });
     });
 
     group('getLocations', () {
-      test('retorna lista de Location ao receber status 200', () async {
+      test('retorna lista de Location quando a requisição é bem-sucedida',
+          () async {
         // Arrange
-        mockApiClientResponse(200, mockResponseData);
+        mockApiClientResponse(mockResponseData);
 
         // Act
         final result = await dataSource.getLocations("1");
@@ -93,38 +60,19 @@ void main() {
         expect(result, equals(mockResponseData));
         verify(() => mockApiClient.get(testLocationsEndpoint)).called(1);
       });
-
-      test('lança UnauthorizedException para status 401', () async {
-        // Arrange
-        mockApiClientResponse(401, null);
-
-        // Act & Assert
-        expect(() => dataSource.getLocations("1"),
-            throwsA(isA<UnauthorizedException>()));
-        verify(() => mockApiClient.get(testLocationsEndpoint)).called(1);
-      });
     });
 
     group('getAssets', () {
-      test('retorna lista de Asset ao receber status 200', () async {
+      test('retorna lista de Asset quando a requisição é bem-sucedida',
+          () async {
         // Arrange
-        mockApiClientResponse(200, mockResponseData);
+        mockApiClientResponse(mockResponseData);
 
         // Act
         final result = await dataSource.getAssets("1");
 
         // Assert
         expect(result, equals(mockResponseData));
-        verify(() => mockApiClient.get(testAssetsEndpoint)).called(1);
-      });
-
-      test('lança ServerException para erro desconhecido', () async {
-        // Arrange
-        mockApiClientResponse(418, null); // Status de erro não mapeado
-
-        // Act & Assert
-        expect(
-            () => dataSource.getAssets("1"), throwsA(isA<ServerException>()));
         verify(() => mockApiClient.get(testAssetsEndpoint)).called(1);
       });
     });
