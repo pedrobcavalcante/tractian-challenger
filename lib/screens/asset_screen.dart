@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../widgets/assets_app_bar.dart';
-import 'widget/filter_button.dart';
+import 'widget/filter_buttons.dart';
 import 'widget/search_field.dart';
 
 class AssetScreen extends StatelessWidget {
@@ -22,32 +21,8 @@ class AssetScreen extends StatelessWidget {
           children: [
             SearchField(),
 
-            // Botões de Filtro
-            Row(
-              children: [
-                Expanded(
-                  child: SelectableButton(
-                    text: 'Sensor de Energia',
-                    iconPath: 'assets/icons/bolt.svg',
-                    isSelected: false,
-                    onPressed: () {
-                      // Implementar o filtro de sensor de energia
-                    },
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: SelectableButton(
-                    text: 'Crítico',
-                    iconPath: 'assets/icons/error_outline.svg',
-                    isSelected: false,
-                    onPressed: () {
-                      // Implementar o filtro crítico
-                    },
-                  ),
-                ),
-              ],
-            ),
+            SizedBox(height: 16),
+            FilterButtons(),
             const SizedBox(height: 16),
 
             // Estrutura da Árvore de Ativos
