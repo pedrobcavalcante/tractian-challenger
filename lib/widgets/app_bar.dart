@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TractianAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? titleText;
@@ -17,12 +18,29 @@ class TractianAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: const Color(0xFF17192D),
       centerTitle: true,
+      leading: titleText != null
+          ? Padding(
+              padding: const EdgeInsets.only(left: 25.0),
+              child: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                  size: 24,
+                ),
+                onPressed: () => Get.back(),
+              ),
+            )
+          : null,
       title: titleText != null
           ? Text(
               titleText!,
               style: const TextStyle(
-                fontWeight: FontWeight.bold,
                 color: Colors.white,
+                fontFamily: 'Roboto',
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
+                height: 28 / 18,
+                decoration: TextDecoration.none,
               ),
             )
           : titleImage != null
