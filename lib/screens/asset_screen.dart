@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../widgets/assets_app_bar.dart';
+import 'widget/filter_button.dart';
+import 'widget/search_field.dart';
 
 class AssetScreen extends StatelessWidget {
   const AssetScreen({super.key});
@@ -17,48 +20,30 @@ class AssetScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Campo de Busca
-            TextField(
-              decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.search),
-                hintText: 'Buscar Ativo ou Local',
-                filled: true,
-                fillColor: Colors.grey[200],
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
+            SearchField(),
 
             // Botões de Filtro
             Row(
               children: [
                 Expanded(
-                  child: ElevatedButton.icon(
+                  child: SelectableButton(
+                    text: 'Sensor de Energia',
+                    iconPath: 'assets/icons/bolt.svg',
+                    isSelected: false,
                     onPressed: () {
                       // Implementar o filtro de sensor de energia
                     },
-                    icon: const Icon(Icons.flash_on),
-                    label: const Text('Sensor de Energia'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF2188FF),
-                    ),
                   ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
-                  child: OutlinedButton.icon(
+                  child: SelectableButton(
+                    text: 'Crítico',
+                    iconPath: 'assets/icons/error_outline.svg',
+                    isSelected: false,
                     onPressed: () {
                       // Implementar o filtro crítico
                     },
-                    icon: const Icon(Icons.error_outline),
-                    label: const Text('Crítico'),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      side: const BorderSide(color: Colors.grey),
-                    ),
                   ),
                 ),
               ],
