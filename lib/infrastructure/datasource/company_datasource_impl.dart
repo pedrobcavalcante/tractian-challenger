@@ -28,23 +28,16 @@ class CompanyDataSourceImpl implements CompanyDataSource {
   }
 
   Future<List<Map<String, dynamic>>> _getRequest(String endpoint) async {
-    late final int statusCode;
     try {
       final response = await apiClient.get(endpoint);
-      statusCode = response.statusCode;
-      if (statusCode == 200) {
-        return List<Map<String, dynamic>>.from(response.data);
-      }
-      NetworkUtils.handleHttpError(statusCode);
+
+      return List<Map<String, dynamic>>.from(response);
     } on SocketException {
       throw NetworkException('Não foi possível conectar-se à rede.');
     } on FormatException {
       throw ServerException('Formato de resposta inválido do servidor.');
-    } on ServerException {
-      rethrow;
     } catch (e) {
       throw ServerException('Erro desconhecido: $e');
     }
-    throw ServerException('Erro desconhecido.');
   }
 }

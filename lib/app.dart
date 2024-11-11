@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'bindings/app_bindings.dart';
 import 'routes/app_routes.dart';
 
 class MyApp extends StatelessWidget {
@@ -6,9 +8,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Tractian App',
+      initialBinding: AppBindings(),
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
