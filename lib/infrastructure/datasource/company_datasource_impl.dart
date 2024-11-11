@@ -2,7 +2,6 @@ import 'dart:io';
 
 import '../../data/datasource/company_datasource.dart';
 import '../../utils/errors/exceptions.dart';
-import '../../utils/errors/network_utils.dart';
 import '../network/api_client.dart';
 
 class CompanyDataSourceImpl implements CompanyDataSource {

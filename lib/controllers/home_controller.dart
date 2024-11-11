@@ -1,16 +1,18 @@
 import 'package:get/get.dart';
 
-import '../../data/datasource/company_datasource.dart';
 import '../../utils/errors/exceptions.dart';
 
-class HomeController extends GetxController {
-  final CompanyDataSource dataSource;
+import '../../domain/usecases/get_companies.dart';
+import '../domain/entities/company.dart';
 
-  var units = <String>[].obs;
+class HomeController extends GetxController {
+  final GetCompanies getCompaniesUseCase;
+
+  var units = <Company>[].obs;
   var isLoading = true.obs;
   var errorMessage = ''.obs;
 
-  HomeController(this.dataSource);
+  HomeController(this.getCompaniesUseCase);
 
   @override
   void onInit() {
@@ -21,8 +23,7 @@ class HomeController extends GetxController {
   void fetchUnits() async {
     try {
       isLoading(true);
-      final fetchedUnits = await dataSource.getCompanies();
-      units.value = fetchedUnits.map((unit) => unit['name'] as String).toList();
+      units.value = await getCompaniesUseCase.execute();
     } on ServerException catch (e) {
       errorMessage(e.message);
     } catch (e) {

@@ -30,9 +30,9 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 30),
-                  ...controller.units.map((unitName) => Column(
+                  ...controller.units.map((unit) => Column(
                         children: [
-                          UnitCard(unitName: unitName),
+                          UnitCard(unitName: unit.name, id: unit.id),
                           const SizedBox(height: 40),
                         ],
                       )),
