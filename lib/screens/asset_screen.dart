@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../widgets/assets_app_bar.dart';
+import 'asset_screen/enums/item_type.dart';
+import 'asset_screen/enums/sensor_status.dart';
 import 'widget/filter_buttons.dart';
 import 'widget/search_field.dart';
 import 'widget/expandable_tree_node.dart';
@@ -31,41 +33,33 @@ class AssetScreen extends StatelessWidget {
                 children: [
                   ExpandableTreeNode(
                     title: 'PRODUCTION AREA - RAW MATERIAL',
-                    icon: Icons.location_on,
-                    indent: 0,
-                    children: [
-                      ExpandableTreeNode(
-                        title: 'CHARCOAL STORAGE SECTOR',
-                        icon: Icons.location_on,
-                        indent: 16,
-                        children: [
-                          ExpandableTreeNode(
-                            title: 'CONVEYOR BELT ASSEMBLY',
-                            icon: Icons.widgets,
-                            indent: 32,
-                            children: [
-                              ExpandableTreeNode(
-                                title: 'MOTOR TC01 COAL UNLOADING AF02',
-                                icon: Icons.widgets,
-                                indent: 48,
-                                children: [
-                                  ExpandableTreeNode(
-                                    title: 'MOTOR RT COAL AF01',
-                                    icon: Icons.sensors,
-                                    indent: 64,
-                                  ),
-                                ],
-                              ),
-                            ],
+                    itemType: ItemType.local,
+                    sensorStatus: SensorStatus.energia,
+                    child: ExpandableTreeNode(
+                      title: 'CHARCOAL STORAGE SECTOR',
+                      itemType: ItemType.local,
+                      sensorStatus: SensorStatus.energia,
+                      child: ExpandableTreeNode(
+                        title: 'CONVEYOR BELT ASSEMBLY',
+                        itemType: ItemType.componente,
+                        sensorStatus: SensorStatus.critico,
+                        child: ExpandableTreeNode(
+                          title: 'MOTOR TC01 COAL UNLOADING AF02',
+                          itemType: ItemType.ativo,
+                          sensorStatus: SensorStatus.critico,
+                          child: ExpandableTreeNode(
+                            title: 'MOTOR RT COAL AF01',
+                            itemType: ItemType.ativo,
+                            sensorStatus: SensorStatus.critico,
                           ),
-                        ],
+                        ),
                       ),
-                    ],
+                    ),
                   ),
                   ExpandableTreeNode(
                     title: 'Fan - External',
-                    icon: Icons.sensors,
-                    indent: 0,
+                    itemType: ItemType.ativo,
+                    sensorStatus: SensorStatus.energia,
                   ),
                 ],
               ),
