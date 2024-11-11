@@ -26,74 +26,8 @@ class AssetScreen extends StatelessWidget {
             const SizedBox(height: 16),
 
             // Estrutura da Árvore de Ativos
-            Expanded(
-              child: ListView(
-                children: [
-                  _buildTreeNode(
-                    title: 'PRODUCTION AREA - RAW MATERIAL',
-                    icon: Icons.location_on,
-                    children: [
-                      _buildTreeNode(
-                        title: 'CHARCOAL STORAGE SECTOR',
-                        icon: Icons.location_on,
-                        children: [
-                          _buildTreeNode(
-                            title: 'CONVEYOR BELT ASSEMBLY',
-                            icon: Icons.widgets,
-                            children: [
-                              _buildTreeNode(
-                                title: 'MOTOR TC01 COAL UNLOADING AF02',
-                                icon: Icons.widgets,
-                                children: [
-                                  _buildTreeNode(
-                                    title: 'MOTOR RT COAL AF01',
-                                    icon: Icons.sensors,
-                                    sensorType: 'vibration',
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  _buildTreeNode(
-                    title: 'Fan - External',
-                    icon: Icons.sensors,
-                    sensorType: 'energy',
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
-      ),
-    );
-  }
-
-  // Função para construir um nó da árvore de ativos
-  Widget _buildTreeNode({
-    required String title,
-    required IconData icon,
-    String? sensorType,
-    List<Widget> children = const [],
-  }) {
-    return Theme(
-      data: ThemeData(
-        iconTheme: IconThemeData(
-          color: sensorType == 'energy' ? Colors.green : Colors.blue,
-        ),
-      ),
-      child: ExpansionTile(
-        leading: Icon(icon),
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        children: children,
       ),
     );
   }
