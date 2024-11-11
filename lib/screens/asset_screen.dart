@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../widgets/assets_app_bar.dart';
 import 'widget/filter_buttons.dart';
 import 'widget/search_field.dart';
+import 'widget/expandable_tree_node.dart';
 
 class AssetScreen extends StatelessWidget {
   const AssetScreen({super.key});
@@ -20,12 +21,55 @@ class AssetScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SearchField(),
-
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             FilterButtons(),
             const SizedBox(height: 16),
 
             // Estrutura da Árvore de Ativos
+            Expanded(
+              child: ListView(
+                children: [
+                  ExpandableTreeNode(
+                    title: 'PRODUCTION AREA - RAW MATERIAL',
+                    icon: Icons.location_on,
+                    indent: 0,
+                    children: [
+                      ExpandableTreeNode(
+                        title: 'CHARCOAL STORAGE SECTOR',
+                        icon: Icons.location_on,
+                        indent: 16,
+                        children: [
+                          ExpandableTreeNode(
+                            title: 'CONVEYOR BELT ASSEMBLY',
+                            icon: Icons.widgets,
+                            indent: 32,
+                            children: [
+                              ExpandableTreeNode(
+                                title: 'MOTOR TC01 COAL UNLOADING AF02',
+                                icon: Icons.widgets,
+                                indent: 48,
+                                children: [
+                                  ExpandableTreeNode(
+                                    title: 'MOTOR RT COAL AF01',
+                                    icon: Icons.sensors,
+                                    indent: 64,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  ExpandableTreeNode(
+                    title: 'Fan - External',
+                    icon: Icons.sensors,
+                    indent: 0,
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
