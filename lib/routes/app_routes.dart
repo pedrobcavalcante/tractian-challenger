@@ -1,7 +1,8 @@
 import 'package:get/get.dart';
-import '../screens/splash_screen.dart';
-import '../screens/home_screen.dart';
-import '../screens/asset_screen.dart';
+
+import '../presentation/asset_screen.dart';
+import '../presentation/home_screen.dart';
+import '../presentation/splash_screen.dart';
 
 class AppRoutes {
   static const String splash = '/';

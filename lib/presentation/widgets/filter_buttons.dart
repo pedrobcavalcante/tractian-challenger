@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tractian/screens/widget/filter_button.dart';
+
+import 'filter_button.dart';
 
 class FilterButtons extends StatelessWidget {
   const FilterButtons({

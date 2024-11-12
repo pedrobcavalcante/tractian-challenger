@@ -5,9 +5,9 @@ import '../controllers/asset_controller.dart';
 import '../widgets/assets_app_bar.dart';
 import 'asset_screen/enums/item_type.dart';
 import 'asset_screen/enums/sensor_status.dart';
-import 'widget/filter_buttons.dart';
-import 'widget/search_field.dart';
-import 'widget/expandable_tree_node.dart';
+import 'widgets/expandable_tree_node.dart';
+import 'widgets/filter_buttons.dart';
+import 'widgets/search_field.dart';
 
 class AssetScreen extends StatelessWidget {
   const AssetScreen({super.key});
