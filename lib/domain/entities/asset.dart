@@ -1,12 +1,14 @@
 import 'package:tractian/domain/entities/location.dart';
 
+import '../enums/sensor_status.dart';
+
 class Asset extends Location {
   final String? companyId;
   final String? locationId;
   final String? gatewayId;
   final String? sensorId;
   final String? sensorType;
-  final String? status;
+  final SensorStatus? status;
 
   const Asset({
     required super.id,

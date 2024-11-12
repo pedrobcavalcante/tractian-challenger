@@ -1,9 +1,10 @@
 import '../enums/item_type.dart';
+import '../enums/sensor_status.dart';
 import 'asset.dart';
 import 'location.dart';
 
 class TreeNode extends Asset {
-   ItemType type;
+  ItemType type;
   final List<TreeNode> children;
 
   TreeNode({
@@ -25,7 +26,7 @@ class TreeNode extends Asset {
     String? name,
     ItemType? type,
     String? sensorType,
-    String? status,
+    SensorStatus? status,
     List<TreeNode>? children,
     String? companyId,
     String? parentId,

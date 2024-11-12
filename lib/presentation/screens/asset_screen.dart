@@ -34,19 +34,20 @@ class AssetScreen extends StatelessWidget {
                 const SizedBox(height: 8),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: SearchField(),
+                  child: SearchField(controller.onFilterButton),
                 ),
                 const SizedBox(height: 8),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: FilterButtons(),
+                  child: FilterButtons(
+                    onCriticalFilterSelected: controller.onCriticalFilterButton,
+                    onEnergyFilterSelected: controller.onEnergyFilterButton,
+                  ),
                 ),
                 const SizedBox(height: 16),
                 Expanded(
                   child: SingleChildScrollView(
-                    child:
-                        AssetTreeWidget(), // Usa o AssetTreeWidget para renderizar a árvore
-                  ),
+                      child: AssetTreeWidget(controller.filteredTree)),
                 ),
               ],
             ),

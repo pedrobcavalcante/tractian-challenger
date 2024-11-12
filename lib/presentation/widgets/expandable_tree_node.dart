@@ -92,7 +92,7 @@ class ExpandableTreeNodeState extends State<ExpandableTreeNode>
                   softWrap: false,
                 ),
                 const SizedBox(width: 8),
-                widget.sensorStatus == SensorStatus.energia
+                widget.sensorStatus == SensorStatus.operacional
                     ? Icon(Icons.bolt_rounded,
                         color: const Color(0xFF52C41A), size: 16)
                     : widget.sensorStatus == SensorStatus.critico

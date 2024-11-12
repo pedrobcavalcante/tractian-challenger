@@ -1,4 +1,5 @@
 import '../../domain/entities/asset.dart';
+import '../../domain/enums/sensor_status.dart';
 
 class AssetModel extends Asset {
   const AssetModel({
@@ -23,7 +24,9 @@ class AssetModel extends Asset {
       gatewayId: json['gatewayId'],
       sensorId: json['sensorId'],
       sensorType: json['sensorType'],
-      status: json['status'],
+      status: json['status'] != null
+          ? SensorStatusParser.fromString(json['status'])
+          : null,
     );
   }
 }

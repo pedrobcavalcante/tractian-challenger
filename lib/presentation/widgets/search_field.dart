@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 
 class SearchField extends StatelessWidget {
-  const SearchField({super.key});
+  final ValueChanged<String> onChanged;
+
+  const SearchField(
+    this.onChanged, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 32,
       child: TextField(
+        onChanged: onChanged,
         decoration: InputDecoration(
           prefixIcon: const Icon(Icons.search, size: 18),
           hintText: 'Buscar Ativo ou Local',
