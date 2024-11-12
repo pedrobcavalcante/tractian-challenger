@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
 import '../widgets/primary_app_bar.dart';
 import '../widgets/unit_card.dart';
+import 'widgets/error_component.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -18,12 +19,11 @@ class HomeScreen extends StatelessWidget {
         child: Obx(() {
           if (controller.isLoading.value) {
             return const Center(child: CircularProgressIndicator());
-          } else if (controller.errorMessage.isNotEmpty) {
-            return Center(
-              child: Text(
-                controller.errorMessage.value,
-                style: const TextStyle(color: Colors.red, fontSize: 18),
-              ),
+          }
+          if (controller.errorMessage.isNotEmpty) {
+            return ErrorComponent(
+              message: controller.errorMessage.value,
+              onRetry: controller.fetchUnits,
             );
           } else {
             return SingleChildScrollView(

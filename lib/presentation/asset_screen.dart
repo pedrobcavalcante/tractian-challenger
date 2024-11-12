@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 
 import '../controllers/asset_controller.dart';
 import '../widgets/assets_app_bar.dart';
-import 'asset_screen/enums/item_type.dart';
-import 'asset_screen/enums/sensor_status.dart';
+import '../domain/enums/item_type.dart';
+import '../domain/enums/sensor_status.dart';
+import 'widgets/error_component.dart';
 import 'widgets/expandable_tree_node.dart';
 import 'widgets/filter_buttons.dart';
 import 'widgets/search_field.dart';
@@ -14,7 +15,6 @@ class AssetScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String id = Get.arguments['id'];
     final controller = Get.find<AssetController>();
     return Scaffold(
       appBar: AssetsAppBar(title: 'Assets'),
@@ -22,8 +22,12 @@ class AssetScreen extends StatelessWidget {
         () {
           if (controller.isLoading.value) {
             return const Center(child: CircularProgressIndicator());
+          } else if (controller.errorMessage.isNotEmpty) {
+            return ErrorComponent(
+              message: controller.errorMessage.value,
+              onRetry: () => controller.fetchData(Get.arguments['id']),
+            );
           }
-
           return Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(

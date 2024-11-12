@@ -21,13 +21,14 @@ class HomeController extends GetxController {
   }
 
   void fetchUnits() async {
+    isLoading(true);
+    errorMessage.value = '';
     try {
-      isLoading(true);
       units.value = await getCompaniesUseCase();
     } on ServerException catch (e) {
-      errorMessage(e.message);
+      errorMessage.value = e.message;
     } catch (e) {
-      errorMessage('Erro desconhecido: $e');
+      errorMessage.value = 'Erro desconhecido: $e';
     } finally {
       isLoading(false);
     }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../asset_screen/enums/item_type.dart';
-import '../asset_screen/enums/sensor_status.dart';
+import '../../domain/enums/item_type.dart';
+import '../../domain/enums/sensor_status.dart';
 import 'icon_type.dart';
 
 class ExpandableTreeNode extends StatefulWidget {
@@ -65,7 +65,7 @@ class ExpandableTreeNodeState extends State<ExpandableTreeNode>
             child: Row(
               children: [
                 widget.child == null
-                    ? const SizedBox(width: 14)
+                    ? const SizedBox()
                     : RotationTransition(
                         turns: _rotationAnimation,
                         child: SvgPicture.asset(

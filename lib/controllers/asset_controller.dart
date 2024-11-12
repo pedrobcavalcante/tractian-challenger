@@ -9,6 +9,7 @@ class AssetController extends GetxController {
   final GetCompanyAssets getCompanyAssets;
 
   final RxBool isLoading = true.obs;
+  final RxString errorMessage = ''.obs;
   final RxList<Location> locations = <Location>[].obs;
   final RxList<Asset> assets = <Asset>[].obs;
 
@@ -25,6 +26,7 @@ class AssetController extends GetxController {
 
   Future<void> fetchData(String companyId) async {
     isLoading.value = true;
+    errorMessage.value = '';
     try {
       final locationsResult = await getCompanyLocations(companyId);
       final assetsResult = await getCompanyAssets(companyId);
@@ -32,8 +34,7 @@ class AssetController extends GetxController {
       locations.assignAll(locationsResult);
       assets.assignAll(assetsResult);
     } catch (e) {
-      // Trate o erro
-      print('Erro ao buscar dados: $e');
+      errorMessage.value = 'Erro ao buscar dados: $e';
     } finally {
       isLoading.value = false;
     }
