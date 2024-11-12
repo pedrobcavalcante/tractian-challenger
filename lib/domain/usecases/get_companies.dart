@@ -6,7 +6,7 @@ class GetCompanies {
 
   GetCompanies(this.repository);
 
-  Future<List<Company>> execute() {
+  Future<List<Company>> call() {
     return repository.getAllCompanies();
   }
 }

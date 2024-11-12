@@ -6,7 +6,7 @@ class GetCompanyLocations {
 
   GetCompanyLocations(this.repository);
 
-  Future<List<Location>> execute(String companyId) {
+  Future<List<Location>> call(String companyId) {
     return repository.getCompanyLocations(companyId);
   }
 }

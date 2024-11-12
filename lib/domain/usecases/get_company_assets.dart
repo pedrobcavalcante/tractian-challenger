@@ -6,7 +6,7 @@ class GetCompanyAssets {
 
   GetCompanyAssets(this.repository);
 
-  Future<List<Asset>> execute(String companyId) {
+  Future<List<Asset>> call(String companyId) {
     return repository.getCompanyAssets(companyId);
   }
 }

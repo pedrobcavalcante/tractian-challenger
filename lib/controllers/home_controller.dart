@@ -23,7 +23,7 @@ class HomeController extends GetxController {
   void fetchUnits() async {
     try {
       isLoading(true);
-      units.value = await getCompaniesUseCase.execute();
+      units.value = await getCompaniesUseCase();
     } on ServerException catch (e) {
       errorMessage(e.message);
     } catch (e) {
