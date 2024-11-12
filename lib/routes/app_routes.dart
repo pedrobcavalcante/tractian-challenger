@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../bindings/asset_binding.dart';
+import '../bindings/home_binding.dart';
 import '../presentation/asset_screen.dart';
 import '../presentation/home_screen.dart';
 import '../presentation/splash_screen.dart';
@@ -17,10 +19,12 @@ class AppRoutes {
     GetPage(
       name: home,
       page: () => const HomeScreen(),
+      binding: HomeBinding(),
     ),
     GetPage(
       name: assets,
       page: () => AssetScreen(),
+      binding: AssetBinding(),
     ),
   ];
 }

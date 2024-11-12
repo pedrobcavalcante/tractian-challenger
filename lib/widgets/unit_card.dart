@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../routes/app_routes.dart';
 import 'vector_icon.dart';
 
 class UnitCard extends StatelessWidget {
@@ -12,7 +13,7 @@ class UnitCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed('/assets', arguments: {'id': id});
+        Get.toNamed(AppRoutes.assets, arguments: {'id': id});
       },
       child: Container(
         width: 317,
