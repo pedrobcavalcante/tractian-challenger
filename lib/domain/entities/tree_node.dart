@@ -5,7 +5,7 @@ import 'location.dart';
 
 class TreeNode extends Asset {
   ItemType type;
-  final List<TreeNode> children;
+  List<TreeNode> children;
 
   TreeNode({
     required super.id,

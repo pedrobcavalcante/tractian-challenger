@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
-import 'package:tractian/domain/enums/sensor_status.dart';
 import '../../domain/entities/location.dart';
 import '../../domain/entities/asset.dart';
 import '../../domain/entities/tree_node.dart';
 import '../../domain/usecases/get_company_locations.dart';
 import '../../domain/usecases/get_company_assets.dart';
 import '../domain/enums/item_type.dart';
+import '../domain/enums/sensor_status.dart';
 
 class AssetController extends GetxController {
   final GetCompanyLocations getCompanyLocations;
@@ -15,8 +15,9 @@ class AssetController extends GetxController {
   final RxString errorMessage = ''.obs;
   final List<TreeNode> assetTree = <TreeNode>[];
   final RxList<TreeNode> filteredTree = <TreeNode>[].obs;
+
   bool criticalFilter = false;
-  bool energyOperacional = false;
+  bool energyFilter = false;
   String filterValue = '';
 
   AssetController({
@@ -32,19 +33,16 @@ class AssetController extends GetxController {
 
   void onCriticalFilterButton(bool value) {
     criticalFilter = value;
-
     _filterTree();
   }
 
   void onEnergyFilterButton(bool value) {
-    energyOperacional = value;
-
+    energyFilter = value;
     _filterTree();
   }
 
   void onFilterButton(String value) {
     filterValue = value;
-
     _filterTree();
   }
 
@@ -67,6 +65,11 @@ class AssetController extends GetxController {
               status: node.status,
               sensorType: node.sensorType,
               children: filteredChildren,
+              companyId: node.companyId,
+              gatewayId: node.gatewayId,
+              locationId: node.locationId,
+              sensorId: node.sensorId,
+              parentId: node.parentId,
             );
           }
 
@@ -79,14 +82,11 @@ class AssetController extends GetxController {
   bool _matchesFilter(TreeNode node) {
     final matchesName =
         node.name.toLowerCase().contains(filterValue.toLowerCase());
-
-    final matchesCritical =
-        !criticalFilter || node.status == SensorStatus.critico;
-
-    final matchesOperacional =
-        !energyOperacional || node.status == SensorStatus.operacional;
-
-    return matchesName && matchesCritical && matchesOperacional;
+    final matchesCritical = !criticalFilter ||
+        (node.status == SensorStatus.critico || node.status == null);
+    final matchesEnergy = !energyFilter ||
+        (node.status == SensorStatus.operacional || node.status == null);
+    return matchesName && matchesCritical && matchesEnergy;
   }
 
   Future<void> fetchData(String companyId) async {
