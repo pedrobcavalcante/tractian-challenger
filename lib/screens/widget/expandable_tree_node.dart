@@ -61,17 +61,19 @@ class ExpandableTreeNodeState extends State<ExpandableTreeNode>
         SizedBox(
           height: 30,
           child: GestureDetector(
-            onTap: _toggleExpansion,
+            onTap: widget.child == null ? null : _toggleExpansion,
             child: Row(
               children: [
-                RotationTransition(
-                  turns: _rotationAnimation,
-                  child: SvgPicture.asset(
-                    'assets/icons/arrow.svg',
-                    width: 8,
-                    height: 8,
-                  ),
-                ),
+                widget.child == null
+                    ? const SizedBox(width: 14)
+                    : RotationTransition(
+                        turns: _rotationAnimation,
+                        child: SvgPicture.asset(
+                          'assets/icons/arrow.svg',
+                          width: 8,
+                          height: 8,
+                        ),
+                      ),
                 const SizedBox(width: 8),
                 ItemTypeIcon(itemType: widget.itemType),
                 const SizedBox(width: 8),
