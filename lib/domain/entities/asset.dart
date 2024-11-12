@@ -1,8 +1,7 @@
-class Asset {
-  final String id;
-  final String name;
+import 'package:tractian/domain/entities/location.dart';
+
+class Asset extends Location {
   final String? companyId;
-  final String? parentId;
   final String? locationId;
   final String? gatewayId;
   final String? sensorId;
@@ -10,10 +9,10 @@ class Asset {
   final String? status;
 
   const Asset({
-    required this.id,
-    required this.name,
+    required super.id,
+    required super.name,
     this.companyId,
-    this.parentId,
+    super.parentId,
     this.locationId,
     this.gatewayId,
     this.sensorId,

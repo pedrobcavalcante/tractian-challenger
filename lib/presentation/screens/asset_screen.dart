@@ -45,39 +45,41 @@ class AssetScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Expanded(
-                  child: ListView(
-                    children: [
-                      ExpandableTreeNode(
-                        title: 'PRODUCTION AREA - RAW MATERIAL',
-                        itemType: ItemType.local,
-                        sensorStatus: SensorStatus.energia,
-                        child: ExpandableTreeNode(
-                          title: 'CHARCOAL STORAGE SECTOR',
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        ExpandableTreeNode(
+                          title: 'PRODUCTION AREA - RAW MATERIAL',
                           itemType: ItemType.local,
                           sensorStatus: SensorStatus.energia,
                           child: ExpandableTreeNode(
-                            title: 'CONVEYOR BELT ASSEMBLY',
-                            itemType: ItemType.componente,
-                            sensorStatus: SensorStatus.critico,
+                            title: 'CHARCOAL STORAGE SECTOR',
+                            itemType: ItemType.local,
+                            sensorStatus: SensorStatus.energia,
                             child: ExpandableTreeNode(
-                              title: 'MOTOR TC01 COAL UNLOADING AF02',
-                              itemType: ItemType.ativo,
+                              title: 'CONVEYOR BELT ASSEMBLY',
+                              itemType: ItemType.componente,
                               sensorStatus: SensorStatus.critico,
                               child: ExpandableTreeNode(
-                                title: 'MOTOR RT COAL AF01',
+                                title: 'MOTOR TC01 COAL UNLOADING AF02',
                                 itemType: ItemType.ativo,
                                 sensorStatus: SensorStatus.critico,
+                                child: ExpandableTreeNode(
+                                  title: 'MOTOR RT COAL AF01',
+                                  itemType: ItemType.ativo,
+                                  sensorStatus: SensorStatus.critico,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      ExpandableTreeNode(
-                        title: 'Fan - External',
-                        itemType: ItemType.ativo,
-                        sensorStatus: SensorStatus.energia,
-                      ),
-                    ],
+                        ExpandableTreeNode(
+                          title: 'Fan - External',
+                          itemType: ItemType.ativo,
+                          sensorStatus: SensorStatus.energia,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

@@ -1,7 +1,6 @@
-class Location {
-  final String id;
-  final String name;
-  final String? parentId;
+import 'company.dart';
 
-  const Location({required this.id, required this.name, this.parentId});
+class Location extends Company {
+  final String? parentId;
+  const Location({required super.id, required super.name, this.parentId});
 }

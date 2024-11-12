@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import '../../domain/entities/location.dart';
 import '../../domain/entities/asset.dart';
+import '../../domain/entities/tree_node.dart';
 import '../../domain/usecases/get_company_locations.dart';
 import '../../domain/usecases/get_company_assets.dart';
 
@@ -10,8 +11,7 @@ class AssetController extends GetxController {
 
   final RxBool isLoading = true.obs;
   final RxString errorMessage = ''.obs;
-  final RxList<Location> locations = <Location>[].obs;
-  final RxList<Asset> assets = <Asset>[].obs;
+  final RxList<TreeNode> assetTree = <TreeNode>[].obs;
 
   AssetController({
     required this.getCompanyLocations,
@@ -28,15 +28,44 @@ class AssetController extends GetxController {
     isLoading.value = true;
     errorMessage.value = '';
     try {
+      // Busca locations e assets
       final locationsResult = await getCompanyLocations(companyId);
       final assetsResult = await getCompanyAssets(companyId);
 
-      locations.assignAll(locationsResult);
-      assets.assignAll(assetsResult);
+      // Constrói a árvore de locations e assets
+      final organizedTree = _buildTree(locationsResult, assetsResult);
+      assetTree.assignAll(organizedTree);
     } catch (e) {
       errorMessage.value = 'Erro ao buscar dados: $e';
     } finally {
       isLoading.value = false;
     }
+  }
+
+  List<TreeNode> _buildTree(List<Location> locations, List<Asset> assets) {
+    List<TreeNode> tempTreeList = [];
+    List<TreeNode> subLocations = [];
+    for (var location in locations) {
+      if (location.parentId != null) {
+        subLocations.add(TreeNode.fromLocation(location));
+      } else {
+        tempTreeList.add(TreeNode.fromLocation(location));
+      }
+    }
+    for (var location in subLocations) {
+      for (var treeNode in tempTreeList) {
+        if (treeNode.id == location.parentId) {
+          treeNode.children.add(location);
+        }
+      }
+    }
+    for (var treeNode in tempTreeList) {
+      for (var asset in assets) {
+        if (treeNode.id == asset.locationId) {
+          treeNode.children.add(TreeNode.fromAsset(asset));
+        }
+      }
+    }
+    return tempTreeList;
   }
 }
