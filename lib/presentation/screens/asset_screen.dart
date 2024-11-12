@@ -3,12 +3,10 @@ import 'package:get/get.dart';
 
 import '../../controllers/asset_controller.dart';
 import '../../widgets/assets_app_bar.dart';
-import '../../domain/enums/item_type.dart';
-import '../../domain/enums/sensor_status.dart';
 import '../widgets/error_component.dart';
-import '../widgets/expandable_tree_node.dart';
 import '../widgets/filter_buttons.dart';
 import '../widgets/search_field.dart';
+import '../widgets/asset_tree_widget.dart';
 
 class AssetScreen extends StatelessWidget {
   const AssetScreen({super.key});
@@ -46,40 +44,8 @@ class AssetScreen extends StatelessWidget {
                 const SizedBox(height: 16),
                 Expanded(
                   child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        ExpandableTreeNode(
-                          title: 'PRODUCTION AREA - RAW MATERIAL',
-                          itemType: ItemType.local,
-                          sensorStatus: SensorStatus.energia,
-                          child: ExpandableTreeNode(
-                            title: 'CHARCOAL STORAGE SECTOR',
-                            itemType: ItemType.local,
-                            sensorStatus: SensorStatus.energia,
-                            child: ExpandableTreeNode(
-                              title: 'CONVEYOR BELT ASSEMBLY',
-                              itemType: ItemType.componente,
-                              sensorStatus: SensorStatus.critico,
-                              child: ExpandableTreeNode(
-                                title: 'MOTOR TC01 COAL UNLOADING AF02',
-                                itemType: ItemType.ativo,
-                                sensorStatus: SensorStatus.critico,
-                                child: ExpandableTreeNode(
-                                  title: 'MOTOR RT COAL AF01',
-                                  itemType: ItemType.ativo,
-                                  sensorStatus: SensorStatus.critico,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        ExpandableTreeNode(
-                          title: 'Fan - External',
-                          itemType: ItemType.ativo,
-                          sensorStatus: SensorStatus.energia,
-                        ),
-                      ],
-                    ),
+                    child:
+                        AssetTreeWidget(), // Usa o AssetTreeWidget para renderizar a árvore
                   ),
                 ),
               ],

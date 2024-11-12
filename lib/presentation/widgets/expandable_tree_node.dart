@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../domain/enums/item_type.dart';
 import '../../domain/enums/sensor_status.dart';
@@ -9,13 +9,13 @@ class ExpandableTreeNode extends StatefulWidget {
   final String title;
   final ItemType itemType;
   final SensorStatus? sensorStatus;
-  final Widget? child;
+  final List<Widget>? children; // Lista de filhos
 
   const ExpandableTreeNode({
     super.key,
     required this.title,
     required this.itemType,
-    this.child,
+    this.children,
     this.sensorStatus,
   });
 
@@ -61,10 +61,12 @@ class ExpandableTreeNodeState extends State<ExpandableTreeNode>
         SizedBox(
           height: 30,
           child: GestureDetector(
-            onTap: widget.child == null ? null : _toggleExpansion,
+            onTap: widget.children == null || widget.children!.isEmpty
+                ? null
+                : _toggleExpansion,
             child: Row(
               children: [
-                widget.child == null
+                widget.children == null || widget.children!.isEmpty
                     ? const SizedBox()
                     : RotationTransition(
                         turns: _rotationAnimation,
@@ -79,11 +81,11 @@ class ExpandableTreeNodeState extends State<ExpandableTreeNode>
                 const SizedBox(width: 8),
                 Text(
                   widget.title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: 'Roboto',
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
-                    color: const Color(0xFF17192D),
+                    color: Color(0xFF17192D),
                   ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
@@ -93,20 +95,21 @@ class ExpandableTreeNodeState extends State<ExpandableTreeNode>
                 widget.sensorStatus == SensorStatus.energia
                     ? Icon(Icons.bolt_rounded,
                         color: const Color(0xFF52C41A), size: 16)
-                    : Icon(Icons.circle, color: Colors.red, size: 8),
+                    : widget.sensorStatus == SensorStatus.critico
+                        ? Icon(Icons.circle, color: Colors.red, size: 8)
+                        : const SizedBox(),
               ],
             ),
           ),
         ),
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 200),
-          child: _isExpanded
+          child: _isExpanded && widget.children != null
               ? Padding(
                   padding: const EdgeInsets.only(left: 16.0),
-                  child: SizeTransition(
-                    sizeFactor: _controller,
-                    axisAlignment: -1,
-                    child: widget.child,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: widget.children!, // Exibe múltiplos filhos
                   ),
                 )
               : null,

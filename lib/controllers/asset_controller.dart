@@ -4,6 +4,7 @@ import '../../domain/entities/asset.dart';
 import '../../domain/entities/tree_node.dart';
 import '../../domain/usecases/get_company_locations.dart';
 import '../../domain/usecases/get_company_assets.dart';
+import '../domain/enums/item_type.dart';
 
 class AssetController extends GetxController {
   final GetCompanyLocations getCompanyLocations;
@@ -61,8 +62,19 @@ class AssetController extends GetxController {
     }
     for (var treeNode in tempTreeList) {
       for (var asset in assets) {
-        if (treeNode.id == asset.locationId) {
+        if (treeNode.id == asset.locationId || treeNode.id == asset.parentId) {
           treeNode.children.add(TreeNode.fromAsset(asset));
+          treeNode.type = ItemType.ativo;
+        }
+      }
+    }
+    for (var treeNode in tempTreeList) {
+      for (var child in treeNode.children) {
+        for (var asset in assets) {
+          if (child.id == asset.parentId || child.id == asset.locationId) {
+            child.children.add(TreeNode.fromAsset(asset));
+            child.type = ItemType.ativo;
+          }
         }
       }
     }

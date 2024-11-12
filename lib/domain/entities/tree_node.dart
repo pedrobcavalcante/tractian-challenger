@@ -3,7 +3,7 @@ import 'asset.dart';
 import 'location.dart';
 
 class TreeNode extends Asset {
-  final ItemType type;
+   ItemType type;
   final List<TreeNode> children;
 
   TreeNode({
