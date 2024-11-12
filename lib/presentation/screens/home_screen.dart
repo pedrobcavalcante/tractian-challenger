@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/home_controller.dart';
-import '../widgets/primary_app_bar.dart';
-import '../widgets/unit_card.dart';
-import 'widgets/error_component.dart';
+import '../../controllers/home_controller.dart';
+import '../../widgets/primary_app_bar.dart';
+import '../../widgets/unit_card.dart';
+import '../widgets/error_component.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

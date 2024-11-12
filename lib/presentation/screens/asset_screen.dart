@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers/asset_controller.dart';
-import '../widgets/assets_app_bar.dart';
-import '../domain/enums/item_type.dart';
-import '../domain/enums/sensor_status.dart';
-import 'widgets/error_component.dart';
-import 'widgets/expandable_tree_node.dart';
-import 'widgets/filter_buttons.dart';
-import 'widgets/search_field.dart';
+import '../../controllers/asset_controller.dart';
+import '../../widgets/assets_app_bar.dart';
+import '../../domain/enums/item_type.dart';
+import '../../domain/enums/sensor_status.dart';
+import '../widgets/error_component.dart';
+import '../widgets/expandable_tree_node.dart';
+import '../widgets/filter_buttons.dart';
+import '../widgets/search_field.dart';
 
 class AssetScreen extends StatelessWidget {
   const AssetScreen({super.key});
@@ -29,13 +29,20 @@ class AssetScreen extends StatelessWidget {
             );
           }
           return Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(6.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SearchField(),
-                const SizedBox(height: 16),
-                FilterButtons(),
+                const SizedBox(height: 8),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: SearchField(),
+                ),
+                const SizedBox(height: 8),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: FilterButtons(),
+                ),
                 const SizedBox(height: 16),
                 Expanded(
                   child: ListView(

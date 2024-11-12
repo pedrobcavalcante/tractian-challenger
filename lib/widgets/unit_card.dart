@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import '../routes/app_routes.dart';
-import 'vector_icon.dart';
 
 class UnitCard extends StatelessWidget {
   final String unitName;
@@ -25,7 +25,15 @@ class UnitCard extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(33, 24, 32, 24),
         child: Row(
           children: [
-            const VectorIcon(),
+            SvgPicture.asset(
+              'assets/icons/vector.svg',
+              width: 21.11,
+              height: 16.29,
+              colorFilter: const ColorFilter.mode(
+                Colors.white,
+                BlendMode.srcIn,
+              ),
+            ),
             const SizedBox(width: 17.45),
             Text(
               unitName,
