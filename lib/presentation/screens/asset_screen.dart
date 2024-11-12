@@ -40,8 +40,10 @@ class AssetScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: FilterButtons(
-                    onCriticalFilterSelected: controller.onCriticalFilterButton,
                     onEnergyFilterSelected: controller.onEnergyFilterButton,
+                    onCriticalFilterSelected: controller.onCriticalFilterButton,
+                    isEnergySelected: controller.energyFilter.value,
+                    isCriticalSelected: controller.criticalFilter.value,
                   ),
                 ),
                 const SizedBox(height: 16),

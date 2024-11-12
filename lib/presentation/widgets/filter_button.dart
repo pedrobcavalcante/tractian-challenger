@@ -1,37 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SelectableButton extends StatefulWidget {
+class SelectableButton extends StatelessWidget {
   final String text;
   final String iconPath;
+  final bool isSelected;
   final ValueChanged<bool> onSelectionChanged;
 
   const SelectableButton({
     super.key,
     required this.text,
     required this.iconPath,
+    required this.isSelected,
     required this.onSelectionChanged,
   });
 
-  @override
-  _SelectableButtonState createState() => _SelectableButtonState();
-}
-
-class _SelectableButtonState extends State<SelectableButton> {
-  bool isSelected = false;
-
-  void _toggleSelection() {
-    setState(() {
-      isSelected = !isSelected;
-    });
-
-    widget.onSelectionChanged(isSelected);
+  void _handleTap() {
+    onSelectionChanged(!isSelected);
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _toggleSelection,
+      onTap: _handleTap,
       child: Container(
         height: 32,
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -48,7 +39,7 @@ class _SelectableButtonState extends State<SelectableButton> {
           mainAxisSize: MainAxisSize.min,
           children: [
             SvgPicture.asset(
-              widget.iconPath,
+              iconPath,
               colorFilter: ColorFilter.mode(
                 isSelected ? Colors.white : const Color(0xFF77818C),
                 BlendMode.srcIn,
@@ -58,7 +49,7 @@ class _SelectableButtonState extends State<SelectableButton> {
             ),
             const SizedBox(width: 8),
             Text(
-              widget.text,
+              text,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'Roboto',

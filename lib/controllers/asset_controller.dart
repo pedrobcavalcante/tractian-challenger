@@ -16,8 +16,8 @@ class AssetController extends GetxController {
   final List<TreeNode> assetTree = <TreeNode>[];
   final RxList<TreeNode> filteredTree = <TreeNode>[].obs;
 
-  bool criticalFilter = false;
-  bool energyFilter = false;
+  RxBool criticalFilter = false.obs;
+  RxBool energyFilter = false.obs;
   String filterValue = '';
 
   AssetController({
@@ -32,12 +32,18 @@ class AssetController extends GetxController {
   }
 
   void onCriticalFilterButton(bool value) {
-    criticalFilter = value;
+    if (value) {
+      energyFilter.value = false;
+    }
+    criticalFilter.value = value;
     _filterTree();
   }
 
   void onEnergyFilterButton(bool value) {
-    energyFilter = value;
+    if (value) {
+      criticalFilter.value = false;
+    }
+    energyFilter.value = value;
     _filterTree();
   }
 
@@ -82,11 +88,16 @@ class AssetController extends GetxController {
   bool _matchesFilter(TreeNode node) {
     final matchesName =
         node.name.toLowerCase().contains(filterValue.toLowerCase());
-    final matchesCritical = !criticalFilter ||
-        (node.status == SensorStatus.critico || node.status == null);
-    final matchesEnergy = !energyFilter ||
-        (node.status == SensorStatus.operacional || node.status == null);
-    return matchesName && matchesCritical && matchesEnergy;
+
+    final matchesCritical = node.type != ItemType.componente ||
+        !criticalFilter.value ||
+        node.status == SensorStatus.critico;
+
+    final matchesEnergy = node.type != ItemType.componente ||
+        !energyFilter.value ||
+        node.status == SensorStatus.operacional;
+
+    return matchesName || (matchesCritical && matchesEnergy);
   }
 
   Future<void> fetchData(String companyId) async {
