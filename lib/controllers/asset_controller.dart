@@ -16,8 +16,8 @@ class AssetController extends GetxController {
   final List<TreeNode> assetTree = <TreeNode>[];
   final RxList<TreeNode> filteredTree = <TreeNode>[].obs;
   bool criticalFilter = false;
-  bool energyFilter = false;
-  RxString filterValue = ''.obs;
+  bool energyOperacional = false;
+  String filterValue = '';
 
   AssetController({
     required this.getCompanyLocations,
@@ -32,54 +32,61 @@ class AssetController extends GetxController {
 
   void onCriticalFilterButton(bool value) {
     criticalFilter = value;
-    print('onCriticalFilterButton: $criticalFilter');
+
     _filterTree();
   }
 
   void onEnergyFilterButton(bool value) {
-    energyFilter = value;
-    print('onEnergyFilterButton: $energyFilter');
+    energyOperacional = value;
+
     _filterTree();
   }
 
   void onFilterButton(String value) {
-    filterValue.value = value;
-    print('onFilterButton: ${filterValue.value}');
+    filterValue = value;
+
     _filterTree();
   }
 
   void _filterTree() {
-    filteredTree.assignAll(_applyFilters(assetTree));
+    filteredTree.value = _applyFilters(assetTree);
   }
 
   List<TreeNode> _applyFilters(List<TreeNode> nodes) {
-    return nodes.where((node) {
-      final matches = _matchesFilter(node);
-      final filteredChildren = _applyFilters(node.children);
-      if (filteredChildren.isNotEmpty) {
-        node.children.assignAll(filteredChildren);
-      }
-      return matches || filteredChildren.isNotEmpty;
-    }).toList();
+    return nodes
+        .map((node) {
+          final filteredChildren = _applyFilters(node.children);
+
+          final matches = _matchesFilter(node);
+
+          if (matches || filteredChildren.isNotEmpty) {
+            return TreeNode(
+              id: node.id,
+              name: node.name,
+              type: node.type,
+              status: node.status,
+              sensorType: node.sensorType,
+              children: filteredChildren,
+            );
+          }
+
+          return null;
+        })
+        .whereType<TreeNode>()
+        .toList();
   }
 
   bool _matchesFilter(TreeNode node) {
     final matchesName =
-        node.name.toLowerCase().contains(filterValue.value.toLowerCase()) ||
-            (node.sensorId != null &&
-                node.sensorId!
-                    .toLowerCase()
-                    .contains(filterValue.value.toLowerCase())) ||
-            (node.sensorType != null &&
-                node.sensorType!
-                    .toLowerCase()
-                    .contains(filterValue.value.toLowerCase()));
+        node.name.toLowerCase().contains(filterValue.toLowerCase());
+
     final matchesCritical =
         !criticalFilter || node.status == SensorStatus.critico;
-    final matchesEnergy =
-        !energyFilter || node.status == SensorStatus.operacional;
 
-    return matchesName && matchesCritical && matchesEnergy;
+    final matchesOperacional =
+        !energyOperacional || node.status == SensorStatus.operacional;
+
+    return matchesName && matchesCritical && matchesOperacional;
   }
 
   Future<void> fetchData(String companyId) async {

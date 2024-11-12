@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../domain/entities/tree_node.dart';
 import '../widgets/expandable_tree_node.dart';
 
@@ -8,8 +9,10 @@ class AssetTreeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: _buildTree(nodes),
+    return Obx(
+      () => Column(
+        children: _buildTree(nodes),
+      ),
     );
   }
 
