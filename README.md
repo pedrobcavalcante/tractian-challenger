@@ -15,9 +15,7 @@ Este projeto é uma aplicação de visualização de árvore para gerenciamento 
 
 ## Demonstração
 
-Clique na imagem abaixo para assistir à demonstração do projeto:
-
-![Demonstração do Projeto](https://youtu.be/9_seV0NmoAU)
+Assista à demonstração do projeto no YouTube: [Clique aqui](https://youtu.be/9_seV0NmoAU)
 
 ## Endpoints de API
 
