@@ -86,7 +86,7 @@ class AssetController extends GetxController {
   }
 
   bool _matchesFilter(TreeNode node) {
-    final matchesName =
+    final matchesName = filterValue.isEmpty ||
         node.name.toLowerCase().contains(filterValue.toLowerCase());
 
     final matchesCritical = node.type != ItemType.componente ||
@@ -95,9 +95,9 @@ class AssetController extends GetxController {
 
     final matchesEnergy = node.type != ItemType.componente ||
         !energyFilter.value ||
-        node.status == SensorStatus.operacional;
+        node.sensorType == "energy";
 
-    return matchesName || (matchesCritical && matchesEnergy);
+    return matchesName && matchesCritical && matchesEnergy;
   }
 
   Future<void> fetchData(String companyId) async {
