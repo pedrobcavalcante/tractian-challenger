@@ -119,39 +119,45 @@ class AssetController extends GetxController {
 
   List<TreeNode> _buildTree(List<Location> locations, List<Asset> assets) {
     List<TreeNode> tempTreeList = [];
+    _addLocations(locations, tempTreeList);
+    List<TreeNode> assetTreeList =
+        assets.map((asset) => TreeNode.fromAsset(asset)).toList();
+    _addAssets(assetTreeList, tempTreeList);
+
+    return tempTreeList;
+  }
+
+  void _addAssets(List<Asset> assets, List<TreeNode> treeList) {
+    for (final tempTree in treeList) {
+      for (final asset in assets) {
+        if (tempTree.id == asset.locationId || tempTree.id == asset.parentId) {
+          tempTree.children.add(TreeNode.fromAsset(asset));
+          if (tempTree.type == ItemType.componente) {
+            tempTree.type = ItemType.ativo;
+          }
+        }
+      }
+      if (tempTree.children.isNotEmpty) {
+        _addAssets(assets, tempTree.children);
+      }
+    }
+  }
+
+  void _addLocations(List<Location> locations, List<TreeNode> treeList) {
     List<TreeNode> subLocations = [];
     for (var location in locations) {
       if (location.parentId != null) {
         subLocations.add(TreeNode.fromLocation(location));
       } else {
-        tempTreeList.add(TreeNode.fromLocation(location));
+        treeList.add(TreeNode.fromLocation(location));
       }
     }
     for (var location in subLocations) {
-      for (var treeNode in tempTreeList) {
+      for (var treeNode in treeList) {
         if (treeNode.id == location.parentId) {
           treeNode.children.add(location);
         }
       }
     }
-    for (var treeNode in tempTreeList) {
-      for (var asset in assets) {
-        if (treeNode.id == asset.locationId || treeNode.id == asset.parentId) {
-          treeNode.children.add(TreeNode.fromAsset(asset));
-          treeNode.type = ItemType.ativo;
-        }
-      }
-    }
-    for (var treeNode in tempTreeList) {
-      for (var child in treeNode.children) {
-        for (var asset in assets) {
-          if (child.id == asset.parentId || child.id == asset.locationId) {
-            child.children.add(TreeNode.fromAsset(asset));
-            child.type = ItemType.ativo;
-          }
-        }
-      }
-    }
-    return tempTreeList;
   }
 }
