@@ -32,17 +32,11 @@ class AssetController extends GetxController {
   }
 
   void onCriticalFilterButton(bool value) {
-    if (value) {
-      energyFilter.value = false;
-    }
     criticalFilter.value = value;
     _filterTree();
   }
 
   void onEnergyFilterButton(bool value) {
-    if (value) {
-      criticalFilter.value = false;
-    }
     energyFilter.value = value;
     _filterTree();
   }
@@ -53,13 +47,47 @@ class AssetController extends GetxController {
   }
 
   void _filterTree() {
-    filteredTree.value = _applyFilters(assetTree);
+    filteredTree.value = _applyMatches(assetTree);
+    filteredTree.value = _applyFilter(filteredTree);
   }
 
-  List<TreeNode> _applyFilters(List<TreeNode> nodes) {
+  List<TreeNode> _applyFilter(List<TreeNode> nodes) {
     return nodes
         .map((node) {
-          final filteredChildren = _applyFilters(node.children);
+          final matches =
+              node.name.toLowerCase().contains(filterValue.toLowerCase());
+
+          if (matches) {
+            return node;
+          } else {
+            final filteredChildren = _applyFilter(node.children);
+            if (filteredChildren.isNotEmpty) {
+              return TreeNode(
+                id: node.id,
+                name: node.name,
+                type: node.type,
+                status: node.status,
+                sensorType: node.sensorType,
+                children: filteredChildren,
+                companyId: node.companyId,
+                gatewayId: node.gatewayId,
+                locationId: node.locationId,
+                sensorId: node.sensorId,
+                parentId: node.parentId,
+              );
+            }
+          }
+
+          return null;
+        })
+        .whereType<TreeNode>()
+        .toList();
+  }
+
+  List<TreeNode> _applyMatches(List<TreeNode> nodes) {
+    return nodes
+        .map((node) {
+          final filteredChildren = _applyMatches(node.children);
 
           final matches = _matchesFilter(node);
 
@@ -86,18 +114,12 @@ class AssetController extends GetxController {
   }
 
   bool _matchesFilter(TreeNode node) {
-    final matchesName = filterValue.isEmpty ||
-        node.name.toLowerCase().contains(filterValue.toLowerCase());
+    final matchesCritical =
+        !criticalFilter.value || node.status == SensorStatus.critico;
 
-    final matchesCritical = node.type != ItemType.componente ||
-        !criticalFilter.value ||
-        node.status == SensorStatus.critico;
+    final matchesEnergy = !energyFilter.value || node.sensorType == "energy";
 
-    final matchesEnergy = node.type != ItemType.componente ||
-        !energyFilter.value ||
-        node.sensorType == "energy";
-
-    return matchesName && matchesCritical && matchesEnergy;
+    return matchesCritical && matchesEnergy;
   }
 
   Future<void> fetchData(String companyId) async {
@@ -118,46 +140,36 @@ class AssetController extends GetxController {
   }
 
   List<TreeNode> _buildTree(List<Location> locations, List<Asset> assets) {
-    List<TreeNode> tempTreeList = [];
-    _addLocations(locations, tempTreeList);
-    List<TreeNode> assetTreeList =
+    final locationsTree =
+        locations.map((location) => TreeNode.fromLocation(location)).toList();
+    List<TreeNode> tempTreeList = _addBase(locationsTree);
+    final assetNodes =
         assets.map((asset) => TreeNode.fromAsset(asset)).toList();
-    _addAssets(assetTreeList, tempTreeList);
+    _addAssets(assetNodes + locationsTree, tempTreeList);
 
     return tempTreeList;
   }
 
-  void _addAssets(List<Asset> assets, List<TreeNode> treeList) {
-    for (final tempTree in treeList) {
+  void _addAssets(List<TreeNode> assets, List<TreeNode> treeList) {
+    for (final treeNode in treeList) {
       for (final asset in assets) {
-        if (tempTree.id == asset.locationId || tempTree.id == asset.parentId) {
-          tempTree.children.add(TreeNode.fromAsset(asset));
-          if (tempTree.type == ItemType.componente) {
-            tempTree.type = ItemType.ativo;
+        if (treeNode.id == asset.locationId || treeNode.id == asset.parentId) {
+          treeNode.children.add(asset);
+          if (treeNode.type == ItemType.componente) {
+            treeNode.type = ItemType.ativo;
           }
         }
       }
-      if (tempTree.children.isNotEmpty) {
-        _addAssets(assets, tempTree.children);
+      if (treeNode.children.isNotEmpty) {
+        _addAssets(assets, treeNode.children);
       }
     }
   }
 
-  void _addLocations(List<Location> locations, List<TreeNode> treeList) {
-    List<TreeNode> subLocations = [];
-    for (var location in locations) {
-      if (location.parentId != null) {
-        subLocations.add(TreeNode.fromLocation(location));
-      } else {
-        treeList.add(TreeNode.fromLocation(location));
-      }
-    }
-    for (var location in subLocations) {
-      for (var treeNode in treeList) {
-        if (treeNode.id == location.parentId) {
-          treeNode.children.add(location);
-        }
-      }
-    }
+  List<TreeNode> _addBase(List<TreeNode> allNodes) {
+    return allNodes
+        .where((node) => node.parentId == null && node.locationId == null)
+        .map((node) => TreeNode.fromLocation(node))
+        .toList();
   }
 }
