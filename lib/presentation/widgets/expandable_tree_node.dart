@@ -9,7 +9,7 @@ class ExpandableTreeNode extends StatefulWidget {
   final String title;
   final ItemType itemType;
   final SensorStatus? sensorStatus;
-  final List<Widget>? children; // Lista de filhos
+  final List<Widget>? children;
 
   const ExpandableTreeNode({
     super.key,
@@ -109,7 +109,7 @@ class ExpandableTreeNodeState extends State<ExpandableTreeNode>
                   padding: const EdgeInsets.only(left: 16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: widget.children!, // Exibe múltiplos filhos
+                    children: widget.children!,
                   ),
                 )
               : null,

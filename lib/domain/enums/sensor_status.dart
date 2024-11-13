@@ -1,4 +1,3 @@
-/// Representa o estado de um sensor.
 enum SensorStatus {
   operacional,
   critico,
@@ -13,15 +12,6 @@ extension SensorStatusParser on SensorStatus {
         return SensorStatus.critico;
       default:
         throw ArgumentError('Invalid SensorStatus value: $value');
-    }
-  }
-
-  String get stringValue {
-    switch (this) {
-      case SensorStatus.operacional:
-        return 'operating';
-      case SensorStatus.critico:
-        return 'alert';
     }
   }
 }

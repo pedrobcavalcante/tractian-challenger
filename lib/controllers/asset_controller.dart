@@ -6,6 +6,7 @@ import '../../domain/usecases/get_company_locations.dart';
 import '../../domain/usecases/get_company_assets.dart';
 import '../domain/enums/item_type.dart';
 import '../domain/enums/sensor_status.dart';
+import '../domain/mapper/tree_node_mapper.dart';
 
 class AssetController extends GetxController {
   final GetCompanyLocations getCompanyLocations;
@@ -141,10 +142,10 @@ class AssetController extends GetxController {
 
   List<TreeNode> _buildTree(List<Location> locations, List<Asset> assets) {
     final locationsTree =
-        locations.map((location) => TreeNode.fromLocation(location)).toList();
+        locations.map((location) => TreeNodeMapper.fromLocation(location)).toList();
     List<TreeNode> tempTreeList = _addBase(locationsTree);
     final assetNodes =
-        assets.map((asset) => TreeNode.fromAsset(asset)).toList();
+        assets.map((asset) => TreeNodeMapper.fromAsset(asset)).toList();
     _addAssets(assetNodes + locationsTree, tempTreeList);
 
     return tempTreeList;
@@ -169,7 +170,7 @@ class AssetController extends GetxController {
   List<TreeNode> _addBase(List<TreeNode> allNodes) {
     return allNodes
         .where((node) => node.parentId == null && node.locationId == null)
-        .map((node) => TreeNode.fromLocation(node))
+        .map((node) => TreeNodeMapper.fromLocation(node))
         .toList();
   }
 }

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import '../../controllers/home_controller.dart';
 import '../../widgets/primary_app_bar.dart';
 import '../../widgets/unit_card.dart';
-import '../widgets/error_component.dart';
+import '../widgets/error_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -30,12 +30,14 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 30),
-                  ...controller.units.map((unit) => Column(
-                        children: [
-                          UnitCard(unitName: unit.name, id: unit.id),
-                          const SizedBox(height: 40),
-                        ],
-                      )),
+                  ...controller.units.map(
+                    (unit) => Column(
+                      children: [
+                        UnitCard(unitName: unit.name, id: unit.id),
+                        const SizedBox(height: 40),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             );

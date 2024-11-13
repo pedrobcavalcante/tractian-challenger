@@ -39,7 +39,6 @@ class TractianAppBar extends StatelessWidget implements PreferredSizeWidget {
                 fontFamily: 'Roboto',
                 fontSize: 18,
                 fontWeight: FontWeight.w400,
-                height: 28 / 18,
                 decoration: TextDecoration.none,
               ),
             )

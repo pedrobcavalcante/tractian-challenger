@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../controllers/asset_controller.dart';
 import '../../widgets/assets_app_bar.dart';
-import '../widgets/error_component.dart';
+import '../widgets/error_widget.dart';
 import '../widgets/filter_buttons.dart';
 import '../widgets/search_field.dart';
 import '../widgets/asset_tree_widget.dart';
@@ -49,7 +49,8 @@ class AssetScreen extends StatelessWidget {
                 const SizedBox(height: 16),
                 Expanded(
                   child: SingleChildScrollView(
-                      child: AssetTreeWidget(controller.filteredTree)),
+                    child: AssetTreeWidget(controller.filteredTree),
+                  ),
                 ),
               ],
             ),
