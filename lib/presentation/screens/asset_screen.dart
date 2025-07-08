@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../controllers/asset_controller.dart';
-import '../../widgets/assets_app_bar.dart';
-import '../widgets/error_widget.dart';
-import '../widgets/filter_buttons.dart';
-import '../widgets/search_field.dart';
-import '../widgets/asset_tree_widget.dart';
+import 'package:tractian/features/asset/presentation/controllers/asset_controller.dart';
+import 'package:tractian/presentation/widgets/asset_tree_widget.dart';
+import 'package:tractian/presentation/widgets/error_widget.dart';
+import 'package:tractian/presentation/widgets/filter_buttons.dart';
+import 'package:tractian/presentation/widgets/search_field.dart';
+import 'package:tractian/widgets/assets_app_bar.dart';
 
 class AssetScreen extends StatelessWidget {
   const AssetScreen({super.key});

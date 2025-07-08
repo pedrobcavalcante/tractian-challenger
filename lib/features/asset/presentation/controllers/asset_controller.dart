@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
-import '../../domain/entities/location.dart';
-import '../../domain/entities/asset.dart';
-import '../../domain/entities/tree_node.dart';
-import '../../domain/usecases/get_company_locations.dart';
-import '../../domain/usecases/get_company_assets.dart';
-import '../domain/enums/item_type.dart';
-import '../domain/enums/sensor_status.dart';
-import '../domain/mapper/tree_node_mapper.dart';
+import 'package:tractian/domain/entities/asset.dart';
+import 'package:tractian/domain/entities/location.dart';
+import 'package:tractian/domain/entities/tree_node.dart';
+import 'package:tractian/domain/enums/item_type.dart';
+import 'package:tractian/domain/enums/sensor_status.dart';
+import 'package:tractian/domain/mapper/tree_node_mapper.dart';
+import 'package:tractian/domain/usecases/get_company_assets.dart';
+import 'package:tractian/domain/usecases/get_company_locations.dart';
 
 class AssetController extends GetxController {
   final GetCompanyLocations getCompanyLocations;
@@ -55,8 +55,9 @@ class AssetController extends GetxController {
   List<TreeNode> _applyFilter(List<TreeNode> nodes) {
     return nodes
         .map((node) {
-          final matches =
-              node.name.toLowerCase().contains(filterValue.toLowerCase());
+          final matches = node.name.toLowerCase().contains(
+            filterValue.toLowerCase(),
+          );
 
           if (matches) {
             return node;
@@ -142,7 +143,9 @@ class AssetController extends GetxController {
 
   List<TreeNode> _buildTree(List<Location> locations, List<Asset> assets) {
     final locationsTree =
-        locations.map((location) => TreeNodeMapper.fromLocation(location)).toList();
+        locations
+            .map((location) => TreeNodeMapper.fromLocation(location))
+            .toList();
     List<TreeNode> tempTreeList = _addBase(locationsTree);
     final assetNodes =
         assets.map((asset) => TreeNodeMapper.fromAsset(asset)).toList();

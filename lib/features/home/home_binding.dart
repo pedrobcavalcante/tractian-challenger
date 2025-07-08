@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:tractian/controllers/home_controller.dart';
+import 'package:tractian/features/home/presentation/controllers/home_controller.dart';
 import 'package:tractian/domain/usecases/get_companies.dart';
 
 class HomeBinding extends Bindings {

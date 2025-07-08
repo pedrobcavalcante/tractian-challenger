@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:tractian/controllers/asset_controller.dart';
+import 'package:tractian/features/asset/presentation/controllers/asset_controller.dart';
 import 'package:tractian/domain/usecases/get_company_assets.dart';
 import 'package:tractian/domain/usecases/get_company_locations.dart';
 
