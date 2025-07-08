@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../routes/app_routes.dart';
-import '../../utils/constants.dart';
+import 'package:tractian/core/constants/route_names.dart';
+import 'package:tractian/utils/constants.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -19,7 +19,7 @@ class SplashScreenState extends State<SplashScreen> {
   _navigateToHome() async {
     await Future.delayed(Constants.splashDelay);
     if (mounted) {
-      Navigator.pushReplacementNamed(context, AppRoutes.home);
+      Navigator.pushReplacementNamed(context, RoutesPage.home);
     }
   }
 

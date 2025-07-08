@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import '../routes/app_routes.dart';
+import 'package:tractian/core/constants/route_names.dart';
 
 class UnitCard extends StatelessWidget {
   final String unitName;
@@ -13,7 +13,7 @@ class UnitCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(AppRoutes.assets, arguments: {'id': id});
+        Get.toNamed(RoutesPage.assets, arguments: {'id': id});
       },
       child: Container(
         width: 317,
