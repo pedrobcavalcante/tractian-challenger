@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:tractian/core/data/network/api_client.dart';
 import 'package:tractian/data/datasource/company_datasource.dart';
-import 'package:tractian/utils/errors/exceptions.dart';
+import 'package:tractian/core/errors/exceptions.dart';
 
 class CompanyDataSourceImpl implements CompanyDataSource {
   static const String _companiesEndpoint = '/companies';

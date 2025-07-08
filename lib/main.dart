@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tractian/core/constants/route_names.dart';
+import 'package:tractian/core/presentation/localization/app_translations.dart';
 import 'core/bindings/app_bindings.dart';
 import 'core/routes/app_routes.dart';
 
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Tractian App',
+      translations: AppTranslations(),
       initialBinding: AppBindings(),
       theme: ThemeData(primarySwatch: Colors.blue),
       initialRoute: RoutesPage.splash,

@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tractian/infrastructure/datasource/company_datasource_impl.dart';
 import 'package:tractian/core/data/network/api_client.dart';
-import 'package:tractian/utils/errors/exceptions.dart';
+import 'package:tractian/core/errors/exceptions.dart';
 
 class MockApiClient extends Mock implements ApiClient {}
 

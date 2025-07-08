@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:tractian/domain/entities/company.dart';
 import 'package:tractian/domain/usecases/get_companies.dart';
-import 'package:tractian/utils/errors/exceptions.dart';
+import 'package:tractian/core/errors/exceptions.dart';
 
 class HomeController extends GetxController {
   final GetCompanies getCompaniesUseCase;
