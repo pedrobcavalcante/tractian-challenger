@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tractian/core/constants/route_names.dart';
-import 'bindings/app_bindings.dart';
+import 'core/bindings/app_bindings.dart';
 import 'core/routes/app_routes.dart';
 
 void main() {
