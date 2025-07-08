@@ -9,10 +9,12 @@ class AssetBinding extends Bindings {
     Get.lazyPut<GetCompanyAssets>(() => GetCompanyAssets(Get.find()));
     Get.lazyPut<GetCompanyLocations>(() => GetCompanyLocations(Get.find()));
 
+    final companyId = Get.arguments['id'] as String;
     Get.lazyPut<AssetController>(
       () => AssetController(
         getCompanyLocations: Get.find(),
         getCompanyAssets: Get.find(),
+        companyId: companyId,
       ),
     );
   }

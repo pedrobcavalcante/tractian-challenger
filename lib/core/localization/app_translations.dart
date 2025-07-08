@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:tractian/core/localization/error_translations.dart';
+import 'package:tractian/core/presentation/translations/error_translations.dart';
 import 'package:tractian/core/utils/extension/translations_list_extention.dart';
 
 import 'shared_translations.dart';
