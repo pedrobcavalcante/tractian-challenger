@@ -1,20 +1,18 @@
 import 'package:get/get.dart';
+import 'package:tractian/core/data/network/api_client_impl.dart';
+import 'package:tractian/core/data/network/api_client.dart';
+import 'package:tractian/data/datasource/company_datasource.dart';
+import 'package:tractian/data/repositories/company_repository_impl.dart';
 import 'package:tractian/domain/repositories/company_repository.dart';
-import '../data/datasource/company_datasource.dart';
-import '../data/repositories/company_repository_impl.dart';
-import '../infrastructure/datasource/company_datasource_impl.dart';
-import '../infrastructure/network/api_client.dart';
+import 'package:tractian/infrastructure/datasource/company_datasource_impl.dart';
 
 class AppBindings extends Bindings {
   @override
   void dependencies() {
-    // Network
-    Get.lazyPut<ApiClient>(() => ApiClient());
+    Get.lazyPut<ApiClient>(() => ApiClientImpl());
 
-    // DataSources
     Get.lazyPut<CompanyDataSource>(() => CompanyDataSourceImpl(Get.find()));
 
-    // Repositories
     Get.lazyPut<CompanyRepository>(() => CompanyRepositoryImpl(Get.find()));
   }
 }
