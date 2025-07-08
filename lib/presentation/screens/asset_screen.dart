@@ -16,47 +16,51 @@ class AssetScreen extends StatelessWidget {
     final controller = Get.find<AssetController>();
     return Scaffold(
       appBar: AssetsAppBar(title: 'Assets'),
-      body: Obx(
-        () {
-          if (controller.isLoading.value) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (controller.errorMessage.isNotEmpty) {
-            return ErrorComponent(
-              message: controller.errorMessage.value,
-              onRetry: () => controller.fetchData(Get.arguments['id']),
-            );
-          }
-          return Padding(
-            padding: const EdgeInsets.all(6.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: SearchField(controller.onFilterButton),
-                ),
-                const SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: FilterButtons(
-                    onEnergyFilterSelected: controller.onEnergyFilterButton,
-                    onCriticalFilterSelected: controller.onCriticalFilterButton,
-                    isEnergySelected: controller.energyFilter.value,
-                    isCriticalSelected: controller.criticalFilter.value,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: AssetTreeWidget(controller.filteredTree),
-                  ),
-                ),
-              ],
-            ),
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (controller.errorMessage.isNotEmpty) {
+          return ErrorComponent(
+            message: controller.errorMessage.value,
+            onRetry: () => controller.fetchData(Get.arguments['id']),
           );
-        },
-      ),
+        }
+        return Padding(
+          padding: const EdgeInsets.all(6.0),
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 8),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: SearchField(controller.onFilterButton),
+                    ),
+                    const SizedBox(height: 8),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: FilterButtons(
+                        onEnergyFilterSelected: controller.onEnergyFilterButton,
+                        onCriticalFilterSelected:
+                            controller.onCriticalFilterButton,
+                        isEnergySelected: controller.energyFilter.value,
+                        isCriticalSelected: controller.criticalFilter.value,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                ),
+              ),
+              SliverPadding(
+                padding: const EdgeInsets.only(top: 8.0),
+                sliver: AssetTreeWidget(controller.filteredTree),
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 }

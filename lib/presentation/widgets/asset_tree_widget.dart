@@ -10,19 +10,36 @@ class AssetTreeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Column(
-        children: _buildTree(nodes),
+      () => CustomScrollView(
+        slivers: [
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                final node = nodes[index];
+                return ExpandableTreeNode(
+                  title: node.name,
+                  itemType: node.type,
+                  sensorStatus: node.status,
+                  children: _buildChildren(node.children),
+                );
+              },
+              childCount: nodes.length,
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  List<Widget> _buildTree(List<TreeNode> nodes) {
-    return nodes.map((node) {
+  List<Widget> _buildChildren(List<TreeNode> children) {
+    if (children.isEmpty) return [];
+
+    return children.map((node) {
       return ExpandableTreeNode(
         title: node.name,
         itemType: node.type,
         sensorStatus: node.status,
-        children: _buildTree(node.children),
+        children: _buildChildren(node.children),
       );
     }).toList();
   }
