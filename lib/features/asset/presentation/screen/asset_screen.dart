@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:tractian/core/constants/app_dimensions.dart';
 import 'package:tractian/features/asset/presentation/controllers/asset_controller.dart';
 import 'package:tractian/features/asset/presentation/localization/asset_translations.dart';
-import 'package:tractian/presentation/widgets/asset_tree_widget.dart';
+import 'package:tractian/features/asset/presentation/widgets/asset_tree_widget.dart';
 
 import 'package:tractian/presentation/widgets/error_widget.dart';
 import 'package:tractian/presentation/widgets/filter_buttons.dart';
