@@ -5,9 +5,9 @@ import 'package:tractian/features/asset/presentation/controllers/asset_controlle
 import 'package:tractian/features/asset/presentation/localization/asset_translations.dart';
 import 'package:tractian/features/asset/presentation/widgets/asset_tree_widget.dart';
 
+import 'package:tractian/features/asset/presentation/widgets/filter_buttons.dart';
+import 'package:tractian/features/asset/presentation/widgets/search_field.dart';
 import 'package:tractian/presentation/widgets/error_widget.dart';
-import 'package:tractian/presentation/widgets/filter_buttons.dart';
-import 'package:tractian/presentation/widgets/search_field.dart';
 import 'package:tractian/widgets/assets_app_bar.dart';
 
 class AssetScreen extends GetView<AssetController> {
