@@ -1,10 +1,10 @@
-import 'package:tractian/data/datasource/company_datasource.dart';
 import 'package:tractian/data/models/asset_model.dart';
 import 'package:tractian/data/models/company_model.dart';
 import 'package:tractian/data/models/location_model.dart';
 import 'package:tractian/domain/entities/asset.dart';
 import 'package:tractian/domain/entities/company.dart';
 import 'package:tractian/domain/entities/location.dart';
+import 'package:tractian/shared/domain/datasources/company_datasource.dart';
 import 'package:tractian/shared/domain/repositories/company_repository.dart';
 
 class CompanyRepositoryImpl implements CompanyRepository {
