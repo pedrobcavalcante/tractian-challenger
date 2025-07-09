@@ -4,7 +4,6 @@ import 'package:tractian/features/asset/domain/entities/location.dart';
 import 'package:tractian/features/asset/domain/entities/tree_node.dart';
 import 'package:tractian/domain/enums/item_type.dart';
 import 'package:tractian/domain/enums/sensor_status.dart';
-import 'package:tractian/domain/mapper/tree_node_mapper.dart';
 import 'package:tractian/domain/usecases/get_company_assets_usecase.dart';
 import 'package:tractian/features/asset/presentation/localization/asset_translations.dart';
 
@@ -115,7 +114,7 @@ class AssetController extends GetxController {
   List<TreeNode> _buildTree(List<Location> locations, List<Asset> assets) {
     // Converte locations para TreeNodes
     final List<TreeNode> locationsTree =
-        locations.map(TreeNodeMapper.fromLocation).toList();
+        locations.map((location) => location.toTreeNode()).toList();
 
     // Filtra apenas nós base (sem parent)
     final List<TreeNode> baseNodes =
@@ -125,7 +124,7 @@ class AssetController extends GetxController {
 
     // Converte assets para TreeNodes
     final List<TreeNode> assetNodes =
-        assets.map(TreeNodeMapper.fromAsset).toList();
+        assets.map((asset) => asset.toTreeNode()).toList();
 
     // Adiciona assets aos seus respectivos parents
     _attachAssetsToParents([...assetNodes, ...locationsTree], baseNodes);
