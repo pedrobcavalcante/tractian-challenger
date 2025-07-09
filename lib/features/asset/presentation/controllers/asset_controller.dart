@@ -2,9 +2,9 @@ import 'package:get/get.dart';
 import 'package:tractian/features/asset/domain/entities/asset.dart';
 import 'package:tractian/features/asset/domain/entities/location.dart';
 import 'package:tractian/features/asset/domain/entities/tree_node.dart';
-import 'package:tractian/domain/enums/item_type.dart';
-import 'package:tractian/domain/enums/sensor_status.dart';
-import 'package:tractian/domain/usecases/get_company_assets_usecase.dart';
+import 'package:tractian/shared/domain/enums/item_type.dart';
+import 'package:tractian/shared/domain/enums/sensor_status.dart';
+import 'package:tractian/features/asset/domain/usecases/get_company_assets_usecase.dart';
 import 'package:tractian/features/asset/presentation/localization/asset_translations.dart';
 
 class AssetController extends GetxController {

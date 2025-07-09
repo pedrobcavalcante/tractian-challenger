@@ -1,5 +1,5 @@
 import 'company.dart';
-import 'package:tractian/domain/enums/item_type.dart';
+import 'package:tractian/shared/domain/enums/item_type.dart';
 import 'package:tractian/features/asset/domain/entities/tree_node.dart';
 
 class Location extends Company {

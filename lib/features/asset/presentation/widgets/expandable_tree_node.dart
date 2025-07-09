@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:tractian/domain/enums/item_type.dart';
-import 'package:tractian/domain/enums/sensor_status.dart';
+import 'package:tractian/shared/domain/enums/item_type.dart';
+import 'package:tractian/shared/domain/enums/sensor_status.dart';
 import 'package:tractian/shared/presentation/widgets/icon_type.dart';
 
 class ExpandableTreeNode extends StatefulWidget {

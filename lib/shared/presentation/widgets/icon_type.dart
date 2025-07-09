@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tractian/domain/enums/item_type.dart';
+import 'package:tractian/shared/domain/enums/item_type.dart';
 
 class ItemTypeIcon extends StatelessWidget {
   final ItemType itemType;

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:tractian/features/home/presentation/controllers/home_controller.dart';
-import 'package:tractian/domain/usecases/get_companies_usecase.dart';
+import 'package:tractian/features/home/domain/usecases/get_companies_usecase.dart';
 
 class HomeBinding extends Bindings {
   @override

@@ -1,7 +1,7 @@
 import 'package:tractian/features/asset/domain/entities/location.dart';
 import 'package:tractian/features/asset/domain/entities/tree_node.dart';
-import 'package:tractian/domain/enums/sensor_status.dart';
-import 'package:tractian/domain/enums/item_type.dart';
+import 'package:tractian/shared/domain/enums/sensor_status.dart';
+import 'package:tractian/shared/domain/enums/item_type.dart';
 
 class Asset extends Location {
   final String? companyId;
