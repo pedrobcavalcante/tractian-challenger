@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tractian/features/home/presentation/controllers/home_controller.dart';
-import 'package:tractian/presentation/widgets/error_widget.dart';
-import 'package:tractian/widgets/primary_app_bar.dart';
-import 'package:tractian/widgets/unit_card.dart';
+import 'package:tractian/shared/presentation/widgets/error_widget.dart';
+import 'package:tractian/shared/presentation/widgets/primary_app_bar.dart';
+import 'package:tractian/shared/presentation/widgets/unit_card.dart';
 import 'package:tractian/core/constants/app_dimensions.dart';
 
 class HomeScreen extends GetView<HomeController> {

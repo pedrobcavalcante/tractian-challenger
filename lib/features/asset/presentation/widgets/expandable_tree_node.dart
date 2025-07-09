@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../../../domain/enums/item_type.dart';
-import '../../../../domain/enums/sensor_status.dart';
-import '../../../../presentation/widgets/icon_type.dart';
+import 'package:tractian/domain/enums/item_type.dart';
+import 'package:tractian/domain/enums/sensor_status.dart';
+import 'package:tractian/shared/presentation/widgets/icon_type.dart';
 
 class ExpandableTreeNode extends StatefulWidget {
   final String title;
@@ -36,8 +35,10 @@ class ExpandableTreeNodeState extends State<ExpandableTreeNode>
       duration: const Duration(milliseconds: 200),
       vsync: this,
     );
-    _rotationAnimation =
-        Tween<double>(begin: 0.75, end: 1).animate(_controller);
+    _rotationAnimation = Tween<double>(
+      begin: 0.75,
+      end: 1,
+    ).animate(_controller);
   }
 
   @override
@@ -61,21 +62,22 @@ class ExpandableTreeNodeState extends State<ExpandableTreeNode>
         SizedBox(
           height: 30,
           child: GestureDetector(
-            onTap: widget.children == null || widget.children!.isEmpty
-                ? null
-                : _toggleExpansion,
+            onTap:
+                widget.children == null || widget.children!.isEmpty
+                    ? null
+                    : _toggleExpansion,
             child: Row(
               children: [
                 widget.children == null || widget.children!.isEmpty
                     ? const SizedBox()
                     : RotationTransition(
-                        turns: _rotationAnimation,
-                        child: SvgPicture.asset(
-                          'assets/icons/arrow.svg',
-                          width: 8,
-                          height: 8,
-                        ),
+                      turns: _rotationAnimation,
+                      child: SvgPicture.asset(
+                        'assets/icons/arrow.svg',
+                        width: 8,
+                        height: 8,
                       ),
+                    ),
                 const SizedBox(width: 8),
                 ItemTypeIcon(itemType: widget.itemType),
                 const SizedBox(width: 8),
@@ -93,26 +95,30 @@ class ExpandableTreeNodeState extends State<ExpandableTreeNode>
                 ),
                 const SizedBox(width: 8),
                 widget.sensorStatus == SensorStatus.operacional
-                    ? Icon(Icons.bolt_rounded,
-                        color: const Color(0xFF52C41A), size: 16)
+                    ? Icon(
+                      Icons.bolt_rounded,
+                      color: const Color(0xFF52C41A),
+                      size: 16,
+                    )
                     : widget.sensorStatus == SensorStatus.critico
-                        ? Icon(Icons.circle, color: Colors.red, size: 8)
-                        : const SizedBox(),
+                    ? Icon(Icons.circle, color: Colors.red, size: 8)
+                    : const SizedBox(),
               ],
             ),
           ),
         ),
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 200),
-          child: _isExpanded && widget.children != null
-              ? Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: widget.children!,
-                  ),
-                )
-              : null,
+          child:
+              _isExpanded && widget.children != null
+                  ? Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: widget.children!,
+                    ),
+                  )
+                  : null,
         ),
       ],
     );

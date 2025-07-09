@@ -7,8 +7,8 @@ import 'package:tractian/features/asset/presentation/widgets/asset_tree_widget.d
 
 import 'package:tractian/features/asset/presentation/widgets/filter_buttons.dart';
 import 'package:tractian/features/asset/presentation/widgets/search_field.dart';
-import 'package:tractian/presentation/widgets/error_widget.dart';
-import 'package:tractian/widgets/assets_app_bar.dart';
+import 'package:tractian/shared/presentation/widgets/error_widget.dart';
+import 'package:tractian/shared/presentation/widgets/assets_app_bar.dart';
 
 class AssetScreen extends GetView<AssetController> {
   const AssetScreen({super.key});

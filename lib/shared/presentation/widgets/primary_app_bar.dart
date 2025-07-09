@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tractian/widgets/app_bar.dart';
+import 'package:tractian/shared/presentation/widgets/app_bar.dart';
 
 class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   const PrimaryAppBar({super.key});
