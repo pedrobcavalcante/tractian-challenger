@@ -1,4 +1,4 @@
-import 'package:tractian/domain/entities/asset.dart';
+import 'package:tractian/features/asset/domain/entities/asset.dart';
 import 'package:tractian/domain/enums/sensor_status.dart';
 
 class AssetModel extends Asset {

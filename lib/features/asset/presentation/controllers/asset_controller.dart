@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:tractian/domain/entities/asset.dart';
-import 'package:tractian/domain/entities/location.dart';
-import 'package:tractian/domain/entities/tree_node.dart';
+import 'package:tractian/features/asset/domain/entities/asset.dart';
+import 'package:tractian/features/asset/domain/entities/location.dart';
+import 'package:tractian/features/asset/domain/entities/tree_node.dart';
 import 'package:tractian/domain/enums/item_type.dart';
 import 'package:tractian/domain/enums/sensor_status.dart';
 import 'package:tractian/domain/mapper/tree_node_mapper.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tractian/domain/entities/tree_node.dart';
+import 'package:tractian/features/asset/domain/entities/tree_node.dart';
 import 'package:tractian/presentation/widgets/expandable_tree_node.dart';
 
 class AssetTreeWidget extends StatelessWidget {

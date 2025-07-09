@@ -1,4 +1,5 @@
-import '../enums/item_type.dart';
+import 'package:tractian/domain/enums/item_type.dart';
+
 import 'asset.dart';
 
 class TreeNode extends Asset {

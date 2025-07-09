@@ -1,9 +1,9 @@
 import 'package:tractian/shared/data/models/asset_model.dart';
 import 'package:tractian/shared/data/models/company_model.dart';
 import 'package:tractian/shared/data/models/location_model.dart';
-import 'package:tractian/domain/entities/asset.dart';
-import 'package:tractian/domain/entities/company.dart';
-import 'package:tractian/domain/entities/location.dart';
+import 'package:tractian/features/asset/domain/entities/asset.dart';
+import 'package:tractian/features/asset/domain/entities/company.dart';
+import 'package:tractian/features/asset/domain/entities/location.dart';
 import 'package:tractian/shared/domain/datasources/company_datasource.dart';
 import 'package:tractian/shared/domain/repositories/company_repository.dart';
 

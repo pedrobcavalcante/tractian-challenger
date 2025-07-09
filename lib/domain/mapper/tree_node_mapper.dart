@@ -1,7 +1,7 @@
-import '../entities/asset.dart';
-import '../entities/location.dart';
-import '../entities/tree_node.dart';
-import '../enums/item_type.dart';
+import 'package:tractian/domain/enums/item_type.dart';
+import 'package:tractian/features/asset/domain/entities/asset.dart';
+import 'package:tractian/features/asset/domain/entities/location.dart';
+import 'package:tractian/features/asset/domain/entities/tree_node.dart';
 
 class TreeNodeMapper {
   static TreeNode fromLocation(Location location) {

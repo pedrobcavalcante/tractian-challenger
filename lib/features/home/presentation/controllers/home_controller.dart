@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:tractian/domain/entities/company.dart';
+import 'package:tractian/features/asset/domain/entities/company.dart';
 import 'package:tractian/domain/usecases/get_companies_usecase.dart';
 import 'package:tractian/core/errors/exceptions.dart';
 

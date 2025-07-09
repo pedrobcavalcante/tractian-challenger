@@ -1,4 +1,4 @@
-import 'package:tractian/domain/entities/location.dart';
+import 'package:tractian/features/asset/domain/entities/location.dart';
 import 'package:tractian/shared/domain/repositories/company_repository.dart';
 
 abstract class GetCompanyLocationsUseCase {

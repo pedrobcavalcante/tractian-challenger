@@ -1,4 +1,4 @@
-import 'package:tractian/domain/entities/company.dart';
+import 'package:tractian/features/asset/domain/entities/company.dart';
 
 class CompanyModel extends Company {
   const CompanyModel({required super.id, required super.name});

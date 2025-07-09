@@ -1,4 +1,4 @@
-import 'package:tractian/domain/entities/asset.dart';
+import 'package:tractian/features/asset/domain/entities/asset.dart';
 import 'package:tractian/shared/domain/repositories/company_repository.dart';
 
 abstract class GetCompanyAssetsUseCase {

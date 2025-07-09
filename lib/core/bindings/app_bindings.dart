@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:tractian/core/data/network/api_client_impl.dart';
 import 'package:tractian/core/data/network/api_client.dart';
 
-import 'package:tractian/data/repositories/company_repository_impl.dart';
+import 'package:tractian/shared/data/repositories/company_repository_impl.dart';
 
 import 'package:tractian/infrastructure/datasource/company_datasource_impl.dart';
 import 'package:tractian/shared/domain/datasources/company_datasource.dart';
