@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Tractian App',
       translations: AppTranslations(),
+      locale: const Locale('pt', 'BR'),
       initialBinding: AppBindings(),
       theme: ThemeData(primarySwatch: Colors.blue),
       initialRoute: RoutesPage.splash,

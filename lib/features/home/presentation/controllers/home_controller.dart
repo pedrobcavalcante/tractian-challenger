@@ -4,7 +4,7 @@ import 'package:tractian/features/home/domain/usecases/get_companies_usecase.dar
 import 'package:tractian/core/errors/exceptions.dart';
 
 class HomeController extends GetxController {
-  final GetCompaniesUseCaseImpl getCompaniesUseCase;
+  final GetCompaniesUseCase getCompaniesUseCase;
 
   var units = <Company>[].obs;
   var isLoading = true.obs;
