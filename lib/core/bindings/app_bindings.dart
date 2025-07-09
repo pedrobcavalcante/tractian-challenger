@@ -3,8 +3,9 @@ import 'package:tractian/core/data/network/api_client_impl.dart';
 import 'package:tractian/core/data/network/api_client.dart';
 import 'package:tractian/data/datasource/company_datasource.dart';
 import 'package:tractian/data/repositories/company_repository_impl.dart';
-import 'package:tractian/domain/repositories/company_repository.dart';
+
 import 'package:tractian/infrastructure/datasource/company_datasource_impl.dart';
+import 'package:tractian/shared/domain/repositories/company_repository.dart';
 
 class AppBindings extends Bindings {
   @override

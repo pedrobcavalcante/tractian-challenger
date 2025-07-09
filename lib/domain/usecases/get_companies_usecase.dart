@@ -1,5 +1,6 @@
 import 'package:tractian/domain/entities/company.dart';
-import 'package:tractian/domain/repositories/company_repository.dart';
+
+import 'package:tractian/shared/domain/repositories/company_repository.dart';
 
 abstract class GetCompaniesUseCase {
   Future<List<Company>> call();

@@ -1,5 +1,5 @@
 import 'package:tractian/domain/entities/location.dart';
-import 'package:tractian/domain/repositories/company_repository.dart';
+import 'package:tractian/shared/domain/repositories/company_repository.dart';
 
 abstract class GetCompanyLocationsUseCase {
   Future<List<Location>> call(String companyId);

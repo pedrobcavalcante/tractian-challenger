@@ -1,11 +1,11 @@
-import '../../domain/entities/asset.dart';
-import '../../domain/entities/company.dart';
-import '../../domain/entities/location.dart';
-import '../../domain/repositories/company_repository.dart';
-import '../datasource/company_datasource.dart';
-import '../models/asset_model.dart';
-import '../models/company_model.dart';
-import '../models/location_model.dart';
+import 'package:tractian/data/datasource/company_datasource.dart';
+import 'package:tractian/data/models/asset_model.dart';
+import 'package:tractian/data/models/company_model.dart';
+import 'package:tractian/data/models/location_model.dart';
+import 'package:tractian/domain/entities/asset.dart';
+import 'package:tractian/domain/entities/company.dart';
+import 'package:tractian/domain/entities/location.dart';
+import 'package:tractian/shared/domain/repositories/company_repository.dart';
 
 class CompanyRepositoryImpl implements CompanyRepository {
   final CompanyDataSource dataSource;

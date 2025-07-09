@@ -1,5 +1,5 @@
 import 'package:tractian/domain/entities/asset.dart';
-import 'package:tractian/domain/repositories/company_repository.dart';
+import 'package:tractian/shared/domain/repositories/company_repository.dart';
 
 abstract class GetCompanyAssetsUseCase {
   Future<List<Asset>> call(String companyId);

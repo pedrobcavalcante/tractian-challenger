@@ -1,6 +1,6 @@
-import '../entities/company.dart';
-import '../entities/location.dart';
-import '../entities/asset.dart';
+import 'package:tractian/domain/entities/asset.dart';
+import 'package:tractian/domain/entities/company.dart';
+import 'package:tractian/domain/entities/location.dart';
 
 abstract class CompanyRepository {
   Future<List<Company>> getAllCompanies();
