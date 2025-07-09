@@ -1,4 +1,4 @@
-import '../../domain/entities/location.dart';
+import '../../../domain/entities/location.dart';
 
 class LocationModel extends Location {
   const LocationModel({required super.id, required super.name, super.parentId});
