@@ -5,13 +5,12 @@ import 'package:tractian/domain/entities/tree_node.dart';
 import 'package:tractian/domain/enums/item_type.dart';
 import 'package:tractian/domain/enums/sensor_status.dart';
 import 'package:tractian/domain/mapper/tree_node_mapper.dart';
-import 'package:tractian/domain/usecases/get_company_assets.dart';
-import 'package:tractian/domain/usecases/get_company_locations.dart';
+import 'package:tractian/domain/usecases/get_company_assets_usecase.dart';
 import 'package:tractian/features/asset/presentation/localization/asset_translations.dart';
 
 class AssetController extends GetxController {
-  final GetCompanyLocations getCompanyLocations;
-  final GetCompanyAssets getCompanyAssets;
+  final GetCompanyAssetsUseCase getCompanyLocations;
+  final GetCompanyAssetsUseCase getCompanyAssets;
   final String companyId;
 
   final RxBool isLoading = true.obs;
