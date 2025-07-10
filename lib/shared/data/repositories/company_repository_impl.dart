@@ -1,6 +1,3 @@
-import 'package:tractian/shared/data/models/asset_model.dart';
-import 'package:tractian/shared/data/models/company_model.dart';
-import 'package:tractian/shared/data/models/location_model.dart';
 import 'package:tractian/features/asset/domain/entities/asset.dart';
 import 'package:tractian/features/asset/domain/entities/company.dart';
 import 'package:tractian/features/asset/domain/entities/location.dart';
@@ -15,18 +12,18 @@ class CompanyRepositoryImpl implements CompanyRepository {
   @override
   Future<List<Company>> getAllCompanies() async {
     final response = await dataSource.getCompanies();
-    return response.map((json) => CompanyModel.fromJson(json)).toList();
+    return response.map((json) => Company.fromJson(json)).toList();
   }
 
   @override
   Future<List<Location>> getCompanyLocations(String companyId) async {
     final response = await dataSource.getLocations(companyId);
-    return response.map((json) => LocationModel.fromJson(json)).toList();
+    return response.map((json) => Location.fromJson(json)).toList();
   }
 
   @override
   Future<List<Asset>> getCompanyAssets(String companyId) async {
     final response = await dataSource.getAssets(companyId);
-    return response.map((json) => AssetModel.fromJson(json)).toList();
+    return response.map((json) => Asset.fromJson(json)).toList();
   }
 }

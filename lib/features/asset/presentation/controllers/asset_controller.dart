@@ -5,10 +5,11 @@ import 'package:tractian/features/asset/domain/entities/tree_node.dart';
 import 'package:tractian/shared/domain/enums/item_type.dart';
 import 'package:tractian/shared/domain/enums/sensor_status.dart';
 import 'package:tractian/features/asset/domain/usecases/get_company_assets_usecase.dart';
+import 'package:tractian/features/asset/domain/usecases/get_company_locations_usecase.dart';
 import 'package:tractian/features/asset/presentation/localization/asset_translations.dart';
 
 class AssetController extends GetxController {
-  final GetCompanyAssetsUseCase getCompanyLocations;
+  final GetCompanyLocationsUseCase getCompanyLocations;
   final GetCompanyAssetsUseCase getCompanyAssets;
   final String companyId;
 
@@ -56,7 +57,6 @@ class AssetController extends GetxController {
 
   List<TreeNode> _filterNodes(List<TreeNode> nodes) {
     return nodes.fold<List<TreeNode>>([], (filtered, node) {
-      // Verifica se o nó atual passa pelos filtros
       final bool matchesName =
           _filterValue.isEmpty ||
           node.name.toLowerCase().contains(_filterValue);
@@ -65,13 +65,12 @@ class AssetController extends GetxController {
       final bool matchesEnergy =
           !energyFilter.value || node.sensorType == "energy";
 
-      // Filtra os filhos recursivamente
       final List<TreeNode> filteredChildren = _filterNodes(node.children);
 
-      // Se o nó atual passa pelos filtros ou tem filhos que passam
-      if ((matchesName && matchesCritical && matchesEnergy) ||
-          filteredChildren.isNotEmpty) {
-        // Cria uma cópia do nó com os filhos filtrados
+      final bool nodeMatches = matchesName && matchesCritical && matchesEnergy;
+      final bool hasMatchingChildren = filteredChildren.isNotEmpty;
+
+      if (nodeMatches || hasMatchingChildren) {
         final TreeNode filteredNode = TreeNode(
           id: node.id,
           name: node.name,
@@ -112,49 +111,51 @@ class AssetController extends GetxController {
   }
 
   List<TreeNode> _buildTree(List<Location> locations, List<Asset> assets) {
-    // Converte locations para TreeNodes
-    final List<TreeNode> locationsTree =
-        locations.map((location) => location.toTreeNode()).toList();
+    if (locations.isEmpty && assets.isEmpty) {
+      return [];
+    }
 
-    // Filtra apenas nós base (sem parent)
-    final List<TreeNode> baseNodes =
-        locationsTree
-            .where((node) => node.parentId == null && node.locationId == null)
-            .toList();
+    final Map<String, TreeNode> nodeMap = <String, TreeNode>{};
+    final Set<String> childIds = <String>{};
 
-    // Converte assets para TreeNodes
-    final List<TreeNode> assetNodes =
-        assets.map((asset) => asset.toTreeNode()).toList();
+    for (final location in locations) {
+      final TreeNode node = location.toTreeNode();
+      nodeMap[node.id] = node;
 
-    // Adiciona assets aos seus respectivos parents
-    _attachAssetsToParents([...assetNodes, ...locationsTree], baseNodes);
-
-    return baseNodes;
-  }
-
-  void _attachAssetsToParents(
-    List<TreeNode> assets,
-    List<TreeNode> parentNodes,
-  ) {
-    for (final parent in parentNodes) {
-      final List<TreeNode> children =
-          assets
-              .where(
-                (asset) =>
-                    asset.locationId == parent.id ||
-                    asset.parentId == parent.id,
-              )
-              .toList();
-
-      if (children.isNotEmpty) {
-        parent.children.addAll(children);
-        if (parent.type == ItemType.componente) {
-          parent.type = ItemType.ativo;
-        }
-
-        // Continua a recursão com os novos filhos
-        _attachAssetsToParents(assets, children);
+      if (node.parentId != null) {
+        childIds.add(node.id);
       }
     }
+
+    for (final asset in assets) {
+      final TreeNode node = asset.toTreeNode();
+      nodeMap[node.id] = node;
+
+      final String? parentRef = node.parentId ?? node.locationId;
+      if (parentRef != null) {
+        childIds.add(node.id);
+      }
+    }
+
+    for (final node in nodeMap.values) {
+      final String? parentId = node.parentId ?? node.locationId;
+
+      if (parentId != null && nodeMap.containsKey(parentId)) {
+        final TreeNode parent = nodeMap[parentId]!;
+        parent.children.add(node);
+
+        if (parent.type == ItemType.componente &&
+            node.type == ItemType.componente) {
+          parent.type = ItemType.ativo;
+        }
+      }
+    }
+
+    final List<TreeNode> rootNodes =
+        nodeMap.values.where((node) => !childIds.contains(node.id)).toList();
+
+    rootNodes.sort((a, b) => a.name.compareTo(b.name));
+
+    return rootNodes;
   }
 }

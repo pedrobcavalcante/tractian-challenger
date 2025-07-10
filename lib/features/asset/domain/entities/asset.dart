@@ -23,6 +23,22 @@ class Asset extends Location {
     this.status,
   });
 
+  factory Asset.fromJson(Map<String, dynamic> json) {
+    return Asset(
+      id: json['id'],
+      name: json['name'],
+      companyId: json['companyId'],
+      parentId: json['parentId'],
+      locationId: json['locationId'],
+      gatewayId: json['gatewayId'],
+      sensorId: json['sensorId'],
+      sensorType: json['sensorType'],
+      status: json['status'] != null
+          ? SensorStatusParser.fromString(json['status'])
+          : null,
+    );
+  }
+
   @override
   TreeNode toTreeNode() {
     return TreeNode(

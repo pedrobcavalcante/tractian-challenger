@@ -5,4 +5,5 @@ class AppDimensions {
   static const double mediumSpacing = 16.0;
   static const double topPadding = 30.0;
   static const double verticalSpacing = 40.0;
+  static const double treeIndentSize = 20.0;
 }

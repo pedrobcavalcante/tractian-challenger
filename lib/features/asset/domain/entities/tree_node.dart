@@ -12,11 +12,11 @@ class TreeNode extends Asset {
     required this.type,
     super.sensorType,
     super.status,
-    this.children = const [],
+    List<TreeNode>? children,
     super.companyId,
     super.parentId,
     super.locationId,
     super.gatewayId,
     super.sensorId,
-  });
+  }) : children = children ?? <TreeNode>[];
 }

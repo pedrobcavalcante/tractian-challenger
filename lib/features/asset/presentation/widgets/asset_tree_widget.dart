@@ -1,36 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:tractian/features/asset/domain/entities/tree_node.dart';
+import 'package:tractian/features/asset/presentation/controllers/asset_controller.dart';
 import 'package:tractian/features/asset/presentation/widgets/expandable_tree_node.dart';
+import 'package:tractian/features/asset/domain/entities/tree_node.dart';
+import 'package:get/get.dart';
+import 'package:tractian/features/asset/presentation/localization/asset_translations.dart';
 
 class AssetTreeWidget extends StatelessWidget {
-  final List<TreeNode> nodes;
-  const AssetTreeWidget(this.nodes, {super.key});
+  const AssetTreeWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate((context, index) {
-        final node = nodes[index];
-        return ExpandableTreeNode(
-          title: node.name,
-          itemType: node.type,
-          sensorStatus: node.status,
-          children: _buildChildren(node.children),
+    final AssetController controller = Get.find<AssetController>();
+    
+    return Obx(() {
+      final List<TreeNode> nodes = controller.filteredTree;
+      
+      if (nodes.isEmpty) {
+        return SliverToBoxAdapter(
+          child: Center(
+            child: Text(AssetTranslations.emptyList.tr),
+          ),
         );
-      }, childCount: nodes.length),
-    );
+      }
+      
+      return SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            return _buildTreeNode(nodes[index]);
+          },
+          childCount: nodes.length,
+        ),
+      );
+    });
   }
 
-  List<Widget> _buildChildren(List<TreeNode> children) {
-    if (children.isEmpty) return [];
+  Widget _buildTreeNode(TreeNode node) {
+    final List<Widget> children = node.children
+        .map((child) => _buildTreeNode(child))
+        .toList();
 
-    return children.map((node) {
-      return ExpandableTreeNode(
-        title: node.name,
-        itemType: node.type,
-        sensorStatus: node.status,
-        children: _buildChildren(node.children),
-      );
-    }).toList();
+    return ExpandableTreeNode(
+      title: node.name,
+      itemType: node.type,
+      sensorStatus: node.status,
+      children: children.isNotEmpty ? children : null,
+    );
   }
 }

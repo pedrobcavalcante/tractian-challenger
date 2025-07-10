@@ -60,7 +60,7 @@ class AssetScreen extends GetView<AssetController> {
               ),
               SliverPadding(
                 padding: EdgeInsets.only(top: AppDimensions.smallSpacing),
-                sliver: AssetTreeWidget(controller.filteredTree),
+                sliver: const AssetTreeWidget(),
               ),
             ],
           ),
