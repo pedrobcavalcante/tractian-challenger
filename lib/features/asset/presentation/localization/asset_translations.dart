@@ -9,7 +9,7 @@ class AssetTranslations extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
     'pt_BR': {
-      title: 'Ativos',
+      title: 'Assets',
       loading: 'Carregando...',
       errorRetry: 'Erro ao carregar dados. Tente novamente.',
       emptyList: 'Nenhum item encontrado',

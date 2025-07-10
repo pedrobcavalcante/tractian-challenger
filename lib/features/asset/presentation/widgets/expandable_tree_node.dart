@@ -69,7 +69,7 @@ class ExpandableTreeNodeState extends State<ExpandableTreeNode>
             child: Row(
               children: [
                 widget.children == null || widget.children!.isEmpty
-                    ? const SizedBox()
+                    ? const SizedBox(width: 4)
                     : RotationTransition(
                       turns: _rotationAnimation,
                       child: SvgPicture.asset(
@@ -81,17 +81,19 @@ class ExpandableTreeNodeState extends State<ExpandableTreeNode>
                 const SizedBox(width: 8),
                 ItemTypeIcon(itemType: widget.itemType),
                 const SizedBox(width: 8),
-                Text(
-                  widget.title,
-                  style: const TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: Color(0xFF17192D),
+                Flexible(
+                  child: Text(
+                    widget.title,
+                    style: const TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xFF17192D),
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    softWrap: false,
                   ),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  softWrap: false,
                 ),
                 const SizedBox(width: 8),
                 widget.sensorStatus == SensorStatus.operacional
@@ -112,7 +114,7 @@ class ExpandableTreeNodeState extends State<ExpandableTreeNode>
           child:
               _isExpanded && widget.children != null
                   ? Padding(
-                    padding: const EdgeInsets.only(left: 16.0),
+                    padding: const EdgeInsets.only(left: 20.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: widget.children!,
