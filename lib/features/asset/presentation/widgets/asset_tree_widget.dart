@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tractian/features/asset/presentation/controllers/asset_controller.dart';
-import 'package:tractian/features/asset/presentation/widgets/expandable_tree_node.dart';
+import 'package:tractian/features/asset/presentation/widgets/optimized_tree_node_widget.dart';
 import 'package:tractian/features/asset/domain/entities/tree_node.dart';
 import 'package:get/get.dart';
 import 'package:tractian/features/asset/presentation/localization/asset_translations.dart';
@@ -23,27 +23,12 @@ class AssetTreeWidget extends StatelessWidget {
         );
       }
       
-      return SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            return _buildTreeNode(nodes[index]);
-          },
-          childCount: nodes.length,
-        ),
+      return SliverList.builder(
+        itemCount: nodes.length,
+        itemBuilder: (context, index) {
+          return OptimizedTreeNodeWidget(node: nodes[index]);
+        },
       );
     });
-  }
-
-  Widget _buildTreeNode(TreeNode node) {
-    final List<Widget> children = node.children
-        .map((child) => _buildTreeNode(child))
-        .toList();
-
-    return ExpandableTreeNode(
-      title: node.name,
-      itemType: node.type,
-      sensorStatus: node.status,
-      children: children.isNotEmpty ? children : null,
-    );
   }
 }

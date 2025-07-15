@@ -19,4 +19,44 @@ class TreeNode extends Asset {
     super.gatewayId,
     super.sensorId,
   }) : children = children ?? <TreeNode>[];
+
+  TreeNode copyWith({
+    String? id,
+    String? name,
+    ItemType? type,
+    String? sensorType,
+    dynamic status,
+    List<TreeNode>? children,
+    String? companyId,
+    String? parentId,
+    String? locationId,
+    String? gatewayId,
+    String? sensorId,
+  }) {
+    return TreeNode(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      type: type ?? this.type,
+      sensorType: sensorType ?? this.sensorType,
+      status: status ?? this.status,
+      children: children ?? List<TreeNode>.from(this.children),
+      companyId: companyId ?? this.companyId,
+      parentId: parentId ?? this.parentId,
+      locationId: locationId ?? this.locationId,
+      gatewayId: gatewayId ?? this.gatewayId,
+      sensorId: sensorId ?? this.sensorId,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is TreeNode &&
+        other.id == id &&
+        other.name == name &&
+        other.type == type;
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, type);
 }

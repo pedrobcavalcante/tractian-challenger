@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tractian/core/constants/route_names.dart';
+import 'package:tractian/core/routes/route_names.dart';
 import 'package:tractian/core/presentation/localization/app_translations.dart';
 import 'core/bindings/app_bindings.dart';
 import 'core/routes/app_routes.dart';

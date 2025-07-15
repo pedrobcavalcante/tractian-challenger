@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:tractian/core/constants/route_names.dart';
+import 'package:tractian/core/routes/route_names.dart';
 
 class UnitCard extends StatelessWidget {
   final String unitName;

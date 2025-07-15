@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tractian/core/constants/route_names.dart';
-import 'package:tractian/core/utils/constants.dart';
+import 'package:tractian/core/routes/route_names.dart';
+import 'package:tractian/core/constants/constants.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'package:get/get.dart';
+import 'package:tractian/core/constants/constants.dart';
 import 'package:tractian/features/asset/domain/entities/asset.dart';
 import 'package:tractian/features/asset/domain/entities/location.dart';
 import 'package:tractian/features/asset/domain/entities/tree_node.dart';
@@ -7,6 +9,10 @@ import 'package:tractian/shared/domain/enums/sensor_status.dart';
 import 'package:tractian/features/asset/domain/usecases/get_company_assets_usecase.dart';
 import 'package:tractian/features/asset/domain/usecases/get_company_locations_usecase.dart';
 import 'package:tractian/features/asset/presentation/localization/asset_translations.dart';
+
+import 'package:tractian/features/asset/core/utils/lru_cache.dart';
+import 'package:tractian/core/services/isolate_worker_service.dart';
+import 'package:tractian/core/services/persistent_cache_service.dart';
 
 class AssetController extends GetxController {
   final GetCompanyLocationsUseCase getCompanyLocations;
@@ -18,20 +24,39 @@ class AssetController extends GetxController {
   final RxList<TreeNode> filteredTree = <TreeNode>[].obs;
   final RxBool criticalFilter = false.obs;
   final RxBool energyFilter = false.obs;
+  final RxBool isProcessingFilter = false.obs;
 
   final List<TreeNode> _assetTree = <TreeNode>[];
   String _filterValue = '';
+
+  late final LRUCache<String, List<TreeNode>> _filterCache;
+  late final PersistentCacheService _persistentCache;
+  late final IsolateWorkerService _isolateWorker;
+
+  String? _lastCacheKey;
+  Timer? _debounceTimer;
 
   AssetController({
     required this.getCompanyLocations,
     required this.getCompanyAssets,
     required this.companyId,
-  });
+  }) {
+    _filterCache = LRUCache<String, List<TreeNode>>(Constants.maxCacheSize);
+    _persistentCache = PersistentCacheService.instance;
+    _isolateWorker = IsolateWorkerService.instance;
+  }
 
   @override
   void onInit() {
     super.onInit();
+    _persistentCache.initialize();
     fetchData();
+  }
+
+  @override
+  void onClose() {
+    _debounceTimer?.cancel();
+    super.onClose();
   }
 
   void onCriticalFilterButton(bool value) {
@@ -45,50 +70,138 @@ class AssetController extends GetxController {
   }
 
   void onFilterButton(String value) {
-    _filterValue = value.toLowerCase();
-    _applyFilters();
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(
+      Duration(milliseconds: Constants.debounceDelayMs),
+      () {
+        _filterValue = value.toLowerCase();
+        _applyFilters();
+      },
+    );
   }
 
   void _applyFilters() {
     if (_assetTree.isEmpty) return;
 
-    filteredTree.value = _filterNodes(_assetTree);
+    final String cacheKey =
+        '${_filterValue}_${criticalFilter.value}_${energyFilter.value}';
+
+    if (_lastCacheKey == cacheKey && _filterCache.containsKey(cacheKey)) {
+      final cachedResult = _filterCache.get(cacheKey);
+      if (cachedResult != null) {
+        filteredTree.value = cachedResult;
+        return;
+      }
+    }
+
+    final persistentResult = _persistentCache.getFilterCache(cacheKey);
+    if (persistentResult != null) {
+      _filterCache.put(cacheKey, persistentResult);
+      _lastCacheKey = cacheKey;
+      filteredTree.value = persistentResult;
+      return;
+    }
+
+    if (_assetTree.length > Constants.maxTreeSizeForSync) {
+      _applyFiltersWithIsolate(cacheKey);
+    } else {
+      final result = _filterNodes(_assetTree);
+      _cacheResult(cacheKey, result);
+      filteredTree.value = result;
+    }
+  }
+
+  Future<void> _applyFiltersWithIsolate(String cacheKey) async {
+    try {
+      isProcessingFilter.value = true;
+
+      final result = await _isolateWorker.processFilters(
+        nodes: _assetTree,
+        filterValue: _filterValue,
+        criticalFilter: criticalFilter.value,
+        energyFilter: energyFilter.value,
+      );
+
+      _cacheResult(cacheKey, result);
+      filteredTree.value = result;
+    } catch (e) {
+      final result = _filterNodes(_assetTree);
+      _cacheResult(cacheKey, result);
+      filteredTree.value = result;
+    } finally {
+      isProcessingFilter.value = false;
+    }
+  }
+
+  void _cacheResult(String cacheKey, List<TreeNode> result) {
+    _filterCache.put(cacheKey, result);
+    _persistentCache.putFilterCache(cacheKey, result);
+    _lastCacheKey = cacheKey;
   }
 
   List<TreeNode> _filterNodes(List<TreeNode> nodes) {
     return nodes.fold<List<TreeNode>>([], (filtered, node) {
-      final bool matchesName =
-          _filterValue.isEmpty ||
-          node.name.toLowerCase().contains(_filterValue);
-      final bool matchesCritical =
-          !criticalFilter.value || node.status == SensorStatus.critico;
-      final bool matchesEnergy =
-          !energyFilter.value || node.sensorType == "energy";
-
-      final List<TreeNode> filteredChildren = _filterNodes(node.children);
-
-      final bool nodeMatches = matchesName && matchesCritical && matchesEnergy;
-      final bool hasMatchingChildren = filteredChildren.isNotEmpty;
-
-      if (nodeMatches || hasMatchingChildren) {
-        final TreeNode filteredNode = TreeNode(
-          id: node.id,
-          name: node.name,
-          type: node.type,
-          status: node.status,
-          sensorType: node.sensorType,
-          children: filteredChildren,
-          companyId: node.companyId,
-          gatewayId: node.gatewayId,
-          locationId: node.locationId,
-          sensorId: node.sensorId,
-          parentId: node.parentId,
-        );
-        filtered.add(filteredNode);
+      final TreeNode? processedNode = _processNodeHierarchically(node);
+      if (processedNode != null) {
+        filtered.add(processedNode);
       }
-
       return filtered;
     });
+  }
+
+  TreeNode? _processNodeHierarchically(TreeNode node) {
+    final bool currentNodeMatches = _nodeMatchesFilters(node);
+
+    if (currentNodeMatches) {
+      return _cloneNodeWithAllChildren(node);
+    }
+
+    final List<TreeNode> matchingChildren = [];
+    for (final child in node.children) {
+      final TreeNode? processedChild = _processNodeHierarchically(child);
+      if (processedChild != null) {
+        matchingChildren.add(processedChild);
+      }
+    }
+
+    if (matchingChildren.isNotEmpty) {
+      return _cloneNodeWithFilteredChildren(node, matchingChildren);
+    }
+
+    return null;
+  }
+
+  TreeNode _cloneNodeWithAllChildren(TreeNode node) {
+    return node.copyWith();
+  }
+
+  TreeNode _cloneNodeWithFilteredChildren(
+    TreeNode node,
+    List<TreeNode> filteredChildren,
+  ) {
+    return node.copyWith(children: filteredChildren);
+  }
+
+  bool _nodeMatchesFilters(TreeNode node) {
+    bool matchesTextFilter = true;
+    bool matchesCriticalFilter = true;
+    bool matchesEnergyFilter = true;
+
+    if (_filterValue.isNotEmpty) {
+      matchesTextFilter = node.name.toLowerCase().contains(
+        _filterValue.toLowerCase(),
+      );
+    }
+
+    if (criticalFilter.value) {
+      matchesCriticalFilter = node.status == SensorStatus.critico;
+    }
+
+    if (energyFilter.value) {
+      matchesEnergyFilter = node.sensorType == "energy";
+    }
+
+    return matchesTextFilter && matchesCriticalFilter && matchesEnergyFilter;
   }
 
   Future<void> fetchData() async {
@@ -100,7 +213,17 @@ class AssetController extends GetxController {
       final assetsResult = await getCompanyAssets(companyId);
 
       _assetTree.clear();
-      _assetTree.addAll(_buildTree(locationsResult, assetsResult));
+
+      if ((locationsResult.length + assetsResult.length) >
+          Constants.maxTreeSizeForSync) {
+        final treeResult = await _isolateWorker.buildTree(
+          locations: locationsResult,
+          assets: assetsResult,
+        );
+        _assetTree.addAll(treeResult);
+      } else {
+        _assetTree.addAll(_buildTree(locationsResult, assetsResult));
+      }
 
       _applyFilters();
     } catch (e) {

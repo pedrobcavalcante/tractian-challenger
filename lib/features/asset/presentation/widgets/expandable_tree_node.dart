@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:tractian/core/constants/constants.dart';
 import 'package:tractian/shared/domain/enums/item_type.dart';
 import 'package:tractian/shared/domain/enums/sensor_status.dart';
 import 'package:tractian/shared/presentation/widgets/icon_type.dart';
@@ -32,7 +33,7 @@ class ExpandableTreeNodeState extends State<ExpandableTreeNode>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 200),
+      duration: Constants.animationDuration,
       vsync: this,
     );
     _rotationAnimation = Tween<double>(
@@ -110,7 +111,7 @@ class ExpandableTreeNodeState extends State<ExpandableTreeNode>
           ),
         ),
         AnimatedSwitcher(
-          duration: const Duration(milliseconds: 200),
+          duration: Constants.animationDuration,
           child:
               _isExpanded && widget.children != null
                   ? Padding(

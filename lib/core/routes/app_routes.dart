@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:tractian/features/asset/asset_binding.dart';
 import 'package:tractian/features/home/home_binding.dart';
-import 'package:tractian/core/constants/route_names.dart';
+import 'package:tractian/core/routes/route_names.dart';
 import 'package:tractian/features/asset/presentation/screens/asset_screen.dart';
 import 'package:tractian/features/home/presentation/screen/home_screen.dart';
 import 'package:tractian/features/splash/presentation/screen/splash_screen.dart';
