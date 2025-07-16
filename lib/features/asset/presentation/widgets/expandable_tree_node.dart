@@ -1,23 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tractian/core/constants/constants.dart';
-import 'package:tractian/shared/domain/enums/item_type.dart';
 import 'package:tractian/shared/domain/enums/sensor_status.dart';
 import 'package:tractian/shared/presentation/widgets/icon_type.dart';
+import 'package:tractian/features/asset/domain/entities/tree_node.dart';
 
 class ExpandableTreeNode extends StatefulWidget {
-  final String title;
-  final ItemType itemType;
-  final SensorStatus? sensorStatus;
+  final TreeNode node;
   final List<Widget>? children;
 
-  const ExpandableTreeNode({
-    super.key,
-    required this.title,
-    required this.itemType,
-    this.children,
-    this.sensorStatus,
-  });
+  const ExpandableTreeNode({super.key, required this.node, this.children});
 
   @override
   ExpandableTreeNodeState createState() => ExpandableTreeNodeState();
@@ -25,7 +17,6 @@ class ExpandableTreeNode extends StatefulWidget {
 
 class ExpandableTreeNodeState extends State<ExpandableTreeNode>
     with SingleTickerProviderStateMixin {
-  bool _isExpanded = false;
   late final AnimationController _controller;
   late final Animation<double> _rotationAnimation;
 
@@ -40,6 +31,11 @@ class ExpandableTreeNodeState extends State<ExpandableTreeNode>
       begin: 0.75,
       end: 1,
     ).animate(_controller);
+
+    // Inicializa a animação baseada no estado do nó
+    if (widget.node.isExpanded) {
+      _controller.forward();
+    }
   }
 
   @override
@@ -50,8 +46,8 @@ class ExpandableTreeNodeState extends State<ExpandableTreeNode>
 
   void _toggleExpansion() {
     setState(() {
-      _isExpanded = !_isExpanded;
-      _isExpanded ? _controller.forward() : _controller.reverse();
+      widget.node.toggleExpansion();
+      widget.node.isExpanded ? _controller.forward() : _controller.reverse();
     });
   }
 
@@ -80,11 +76,11 @@ class ExpandableTreeNodeState extends State<ExpandableTreeNode>
                       ),
                     ),
                 const SizedBox(width: 8),
-                ItemTypeIcon(itemType: widget.itemType),
+                ItemTypeIcon(itemType: widget.node.type),
                 const SizedBox(width: 8),
                 Flexible(
                   child: Text(
-                    widget.title,
+                    widget.node.name,
                     style: const TextStyle(
                       fontFamily: 'Roboto',
                       fontSize: 14,
@@ -97,13 +93,13 @@ class ExpandableTreeNodeState extends State<ExpandableTreeNode>
                   ),
                 ),
                 const SizedBox(width: 8),
-                widget.sensorStatus == SensorStatus.operacional
+                widget.node.status == SensorStatus.operacional
                     ? Icon(
                       Icons.bolt_rounded,
                       color: const Color(0xFF52C41A),
                       size: 16,
                     )
-                    : widget.sensorStatus == SensorStatus.critico
+                    : widget.node.status == SensorStatus.critico
                     ? Icon(Icons.circle, color: Colors.red, size: 8)
                     : const SizedBox(),
               ],
@@ -113,7 +109,7 @@ class ExpandableTreeNodeState extends State<ExpandableTreeNode>
         AnimatedSwitcher(
           duration: Constants.animationDuration,
           child:
-              _isExpanded && widget.children != null
+              widget.node.isExpanded && widget.children != null
                   ? Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: Column(

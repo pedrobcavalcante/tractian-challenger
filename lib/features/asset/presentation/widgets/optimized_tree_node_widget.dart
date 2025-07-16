@@ -27,9 +27,7 @@ class OptimizedTreeNodeWidget extends StatelessWidget {
             .toList();
 
     return ExpandableTreeNode(
-      title: node.name,
-      itemType: node.type,
-      sensorStatus: node.status,
+      node: node,
       children: children.isNotEmpty ? children : null,
     );
   }

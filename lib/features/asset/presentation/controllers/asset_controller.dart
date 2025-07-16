@@ -30,6 +30,8 @@ class AssetController extends GetxController {
   final List<TreeNode> _assetTree = <TreeNode>[];
   String _filterValue = '';
 
+  final Map<String, bool> _expandedStates = <String, bool>{};
+
   late final LRUCache<String, List<TreeNode>> _filterCache;
   late final PersistentCacheService _persistentCache;
   late final IsolateWorkerService _isolateWorker;
@@ -213,7 +215,10 @@ class AssetController extends GetxController {
       matchesOperationalFilter = node.status == SensorStatus.operacional;
     }
 
-    return matchesTextFilter && matchesCriticalFilter && matchesEnergyFilter && matchesOperationalFilter;
+    return matchesTextFilter &&
+        matchesCriticalFilter &&
+        matchesEnergyFilter &&
+        matchesOperationalFilter;
   }
 
   Future<void> fetchData() async {
@@ -292,5 +297,17 @@ class AssetController extends GetxController {
     rootNodes.sort((a, b) => a.name.compareTo(b.name));
 
     return rootNodes;
+  }
+
+  bool isNodeExpanded(String nodeId) {
+    return _expandedStates[nodeId] ?? false;
+  }
+
+  void toggleNodeExpansion(String nodeId) {
+    _expandedStates[nodeId] = !(_expandedStates[nodeId] ?? false);
+  }
+
+  void setNodeExpanded(String nodeId, bool isExpanded) {
+    _expandedStates[nodeId] = isExpanded;
   }
 }

@@ -5,6 +5,7 @@ import 'asset.dart';
 class TreeNode extends Asset {
   ItemType type;
   List<TreeNode> children;
+  bool isExpanded;
 
   TreeNode({
     required super.id,
@@ -13,6 +14,7 @@ class TreeNode extends Asset {
     super.sensorType,
     super.status,
     List<TreeNode>? children,
+    this.isExpanded = false,
     super.companyId,
     super.parentId,
     super.locationId,
@@ -27,6 +29,7 @@ class TreeNode extends Asset {
     String? sensorType,
     dynamic status,
     List<TreeNode>? children,
+    bool? isExpanded,
     String? companyId,
     String? parentId,
     String? locationId,
@@ -40,6 +43,7 @@ class TreeNode extends Asset {
       sensorType: sensorType ?? this.sensorType,
       status: status ?? this.status,
       children: children ?? List<TreeNode>.from(this.children),
+      isExpanded: isExpanded ?? this.isExpanded,
       companyId: companyId ?? this.companyId,
       parentId: parentId ?? this.parentId,
       locationId: locationId ?? this.locationId,
@@ -59,4 +63,8 @@ class TreeNode extends Asset {
 
   @override
   int get hashCode => Object.hash(id, name, type);
+
+  void toggleExpansion() {
+    isExpanded = !isExpanded;
+  }
 }
