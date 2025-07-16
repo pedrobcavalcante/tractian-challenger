@@ -24,6 +24,7 @@ class AssetController extends GetxController {
   final RxList<TreeNode> filteredTree = <TreeNode>[].obs;
   final RxBool criticalFilter = false.obs;
   final RxBool energyFilter = false.obs;
+  final RxBool operationalFilter = false.obs;
   final RxBool isProcessingFilter = false.obs;
 
   final List<TreeNode> _assetTree = <TreeNode>[];
@@ -69,6 +70,11 @@ class AssetController extends GetxController {
     _applyFilters();
   }
 
+  void onOperationalFilterButton(bool value) {
+    operationalFilter.value = value;
+    _applyFilters();
+  }
+
   void onFilterButton(String value) {
     _debounceTimer?.cancel();
     _debounceTimer = Timer(
@@ -84,7 +90,7 @@ class AssetController extends GetxController {
     if (_assetTree.isEmpty) return;
 
     final String cacheKey =
-        '${_filterValue}_${criticalFilter.value}_${energyFilter.value}';
+        '${_filterValue}_${criticalFilter.value}_${energyFilter.value}_${operationalFilter.value}';
 
     if (_lastCacheKey == cacheKey && _filterCache.containsKey(cacheKey)) {
       final cachedResult = _filterCache.get(cacheKey);
@@ -120,6 +126,7 @@ class AssetController extends GetxController {
         filterValue: _filterValue,
         criticalFilter: criticalFilter.value,
         energyFilter: energyFilter.value,
+        operationalFilter: operationalFilter.value,
       );
 
       _cacheResult(cacheKey, result);
@@ -186,6 +193,7 @@ class AssetController extends GetxController {
     bool matchesTextFilter = true;
     bool matchesCriticalFilter = true;
     bool matchesEnergyFilter = true;
+    bool matchesOperationalFilter = true;
 
     if (_filterValue.isNotEmpty) {
       matchesTextFilter = node.name.toLowerCase().contains(
@@ -201,7 +209,11 @@ class AssetController extends GetxController {
       matchesEnergyFilter = node.sensorType == "energy";
     }
 
-    return matchesTextFilter && matchesCriticalFilter && matchesEnergyFilter;
+    if (operationalFilter.value) {
+      matchesOperationalFilter = node.status == SensorStatus.operacional;
+    }
+
+    return matchesTextFilter && matchesCriticalFilter && matchesEnergyFilter && matchesOperationalFilter;
   }
 
   Future<void> fetchData() async {

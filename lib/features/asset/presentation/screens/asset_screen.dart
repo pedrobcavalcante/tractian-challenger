@@ -50,8 +50,11 @@ class AssetScreen extends GetView<AssetController> {
                         onEnergyFilterSelected: controller.onEnergyFilterButton,
                         onCriticalFilterSelected:
                             controller.onCriticalFilterButton,
+                        onOperationalFilterSelected:
+                            controller.onOperationalFilterButton,
                         isEnergySelected: controller.energyFilter.value,
                         isCriticalSelected: controller.criticalFilter.value,
+                        isOperationalSelected: controller.operationalFilter.value,
                       ),
                     ),
                     SizedBox(height: AppDimensions.mediumSpacing),

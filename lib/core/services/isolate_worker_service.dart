@@ -18,12 +18,14 @@ class IsolateWorkerService {
     required String filterValue,
     required bool criticalFilter,
     required bool energyFilter,
+    required bool operationalFilter,
   }) async {
     final params = FilterParams(
       nodes: nodes,
       filterValue: filterValue,
       criticalFilter: criticalFilter,
       energyFilter: energyFilter,
+      operationalFilter: operationalFilter,
     );
 
     return compute(_filterNodesIsolate, params);
@@ -44,12 +46,14 @@ class FilterParams {
   final String filterValue;
   final bool criticalFilter;
   final bool energyFilter;
+  final bool operationalFilter;
 
   FilterParams({
     required this.nodes,
     required this.filterValue,
     required this.criticalFilter,
     required this.energyFilter,
+    required this.operationalFilter,
   });
 }
 
@@ -67,6 +71,7 @@ List<TreeNode> _filterNodesIsolate(FilterParams params) {
       params.filterValue,
       params.criticalFilter,
       params.energyFilter,
+      params.operationalFilter,
     );
     if (processedNode != null) {
       filtered.add(processedNode);
@@ -80,12 +85,14 @@ TreeNode? _processNodeHierarchically(
   String filterValue,
   bool criticalFilter,
   bool energyFilter,
+  bool operationalFilter,
 ) {
   final bool nodeMatches = _nodeMatchesFilters(
     node,
     filterValue,
     criticalFilter,
     energyFilter,
+    operationalFilter,
   );
 
   if (nodeMatches) {
@@ -99,6 +106,7 @@ TreeNode? _processNodeHierarchically(
       filterValue,
       criticalFilter,
       energyFilter,
+      operationalFilter,
     );
     if (processedChild != null) {
       matchingChildren.add(processedChild);
@@ -117,6 +125,7 @@ bool _nodeMatchesFilters(
   String filterValue,
   bool criticalFilter,
   bool energyFilter,
+  bool operationalFilter,
 ) {
   if (filterValue.isNotEmpty &&
       !node.name.toLowerCase().contains(filterValue.toLowerCase())) {
@@ -128,6 +137,10 @@ bool _nodeMatchesFilters(
   }
 
   if (energyFilter && node.sensorType != "energy") {
+    return false;
+  }
+
+  if (operationalFilter && node.status != SensorStatus.operacional) {
     return false;
   }
 
