@@ -21,6 +21,7 @@ class Location extends Company {
       parentId: parentId,
       type: ItemType.local,
       children: [],
+      isExpanded: false,
     );
   }
 }

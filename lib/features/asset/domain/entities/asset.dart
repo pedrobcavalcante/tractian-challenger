@@ -33,9 +33,10 @@ class Asset extends Location {
       gatewayId: json['gatewayId'],
       sensorId: json['sensorId'],
       sensorType: json['sensorType'],
-      status: json['status'] != null
-          ? SensorStatusParser.fromString(json['status'])
-          : null,
+      status:
+          json['status'] != null
+              ? SensorStatusParser.fromString(json['status'])
+              : null,
     );
   }
 
@@ -53,6 +54,7 @@ class Asset extends Location {
       companyId: companyId,
       type: ItemType.componente,
       children: [],
+      isExpanded: false,
     );
   }
 }
