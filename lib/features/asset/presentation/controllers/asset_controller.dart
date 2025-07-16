@@ -32,9 +32,9 @@ class AssetController extends GetxController {
 
   final Map<String, bool> _expandedStates = <String, bool>{};
 
-  late final LRUCache<String, List<TreeNode>> _filterCache;
-  late final PersistentCacheService _persistentCache;
-  late final IsolateWorkerService _isolateWorker;
+  final LRUCache<String, List<TreeNode>> filterCache;
+  final PersistentCacheService persistentCache;
+  final IsolateWorkerService isolateWorker;
 
   String? _lastCacheKey;
   Timer? _debounceTimer;
@@ -43,22 +43,22 @@ class AssetController extends GetxController {
     required this.getCompanyLocations,
     required this.getCompanyAssets,
     required this.companyId,
-  }) {
-    _filterCache = LRUCache<String, List<TreeNode>>(Constants.maxCacheSize);
-    _persistentCache = PersistentCacheService.instance;
-    _isolateWorker = IsolateWorkerService.instance;
-  }
+    required this.persistentCache,
+    required this.isolateWorker,
+    required this.filterCache,
+  });
 
   @override
   void onInit() {
     super.onInit();
-    _persistentCache.initialize();
+    persistentCache.initialize();
     fetchData();
   }
 
   @override
   void onClose() {
     _debounceTimer?.cancel();
+
     super.onClose();
   }
 
@@ -94,17 +94,17 @@ class AssetController extends GetxController {
     final String cacheKey =
         '${_filterValue}_${criticalFilter.value}_${energyFilter.value}_${operationalFilter.value}';
 
-    if (_lastCacheKey == cacheKey && _filterCache.containsKey(cacheKey)) {
-      final cachedResult = _filterCache.get(cacheKey);
+    if (_lastCacheKey == cacheKey && filterCache.containsKey(cacheKey)) {
+      final cachedResult = filterCache.get(cacheKey);
       if (cachedResult != null) {
         filteredTree.value = cachedResult;
         return;
       }
     }
 
-    final persistentResult = _persistentCache.getFilterCache(cacheKey);
+    final persistentResult = persistentCache.getFilterCache(cacheKey);
     if (persistentResult != null) {
-      _filterCache.put(cacheKey, persistentResult);
+      filterCache.put(cacheKey, persistentResult);
       _lastCacheKey = cacheKey;
       filteredTree.value = persistentResult;
       return;
@@ -123,7 +123,7 @@ class AssetController extends GetxController {
     try {
       isProcessingFilter.value = true;
 
-      final result = await _isolateWorker.processFilters(
+      final result = await isolateWorker.processFilters(
         nodes: _assetTree,
         filterValue: _filterValue,
         criticalFilter: criticalFilter.value,
@@ -143,8 +143,8 @@ class AssetController extends GetxController {
   }
 
   void _cacheResult(String cacheKey, List<TreeNode> result) {
-    _filterCache.put(cacheKey, result);
-    _persistentCache.putFilterCache(cacheKey, result);
+    filterCache.put(cacheKey, result);
+    persistentCache.putFilterCache(cacheKey, result);
     _lastCacheKey = cacheKey;
   }
 
@@ -233,7 +233,7 @@ class AssetController extends GetxController {
 
       if ((locationsResult.length + assetsResult.length) >
           Constants.maxTreeSizeForSync) {
-        final treeResult = await _isolateWorker.buildTree(
+        final treeResult = await isolateWorker.buildTree(
           locations: locationsResult,
           assets: assetsResult,
         );

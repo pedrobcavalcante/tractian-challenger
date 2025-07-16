@@ -7,12 +7,6 @@ import 'package:tractian/shared/domain/enums/item_type.dart';
 import 'package:tractian/shared/domain/enums/sensor_status.dart';
 
 class IsolateWorkerService {
-  static IsolateWorkerService? _instance;
-  static IsolateWorkerService get instance =>
-      _instance ??= IsolateWorkerService._();
-
-  IsolateWorkerService._();
-
   Future<List<TreeNode>> processFilters({
     required List<TreeNode> nodes,
     required String filterValue,
@@ -96,7 +90,7 @@ TreeNode? _processNodeHierarchically(
   );
 
   if (nodeMatches) {
-    return node.copyWith();
+    return node.copyWith(isExpanded: node.isExpanded);
   }
 
   final List<TreeNode> matchingChildren = [];
@@ -114,7 +108,10 @@ TreeNode? _processNodeHierarchically(
   }
 
   if (matchingChildren.isNotEmpty) {
-    return node.copyWith(children: matchingChildren);
+    return node.copyWith(
+      children: matchingChildren,
+      isExpanded: node.isExpanded,
+    );
   }
 
   return null;

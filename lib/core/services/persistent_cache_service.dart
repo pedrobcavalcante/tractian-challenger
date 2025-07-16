@@ -1,12 +1,6 @@
 import 'package:tractian/features/asset/domain/entities/tree_node.dart';
 
 class PersistentCacheService {
-  static PersistentCacheService? _instance;
-  static PersistentCacheService get instance =>
-      _instance ??= PersistentCacheService._();
-
-  PersistentCacheService._();
-
   final Map<String, List<TreeNode>> _cache = {};
 
   Future<void> initialize() async {}
