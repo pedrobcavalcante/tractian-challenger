@@ -283,11 +283,12 @@ class AssetController extends GetxController {
       if (parentId != null && nodeMap.containsKey(parentId)) {
         final TreeNode parent = nodeMap[parentId]!;
         parent.children.add(node);
+      }
+    }
 
-        if (parent.type == ItemType.componente &&
-            node.type == ItemType.componente) {
-          parent.type = ItemType.ativo;
-        }
+    for (final node in nodeMap.values) {
+      if (node.type == ItemType.componente && node.children.isNotEmpty) {
+        node.type = ItemType.ativo;
       }
     }
 
